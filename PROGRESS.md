@@ -283,3 +283,11 @@
   - `--sim-wrist`: a sim twin runs alongside the real arm. It is driven by the same (clipped) joint commands through its position actuators, with the cube's physics, so a real grasp is a sim grasp too. Its wrist view replaces the real wrist camera; the side camera stays real. Offline closed-loop test through the live episode code, with the twin standing in for the real arm and its render for the side camera: 3/3 successes (poses 300-302, 348-388 steps), as in the sim eval.
   - `--filter colour|denoise|both`: denoise is a bilateral filter; colour is a fixed LAB gain/offset per camera, fitted once per pose so the real frame takes the mean and spread of the sim render of the same scene. Applied to every real frame, in `--mix` too. Check on a tinted, noisy sim image: mean abs diff to the clean render 15.5 → 5.4 (colour) / 13.8 (denoise) / 2.5 (both); ~15 ms per camera pair.
   - Output folders get `_simwrist` / `_<filter>` suffixes; each episode records sim_wrist and filter.
+- Put the project on GitHub (`DedMoroz38/VLA`, branch `master`, first commit `740a2de`: 243 files, ~60 MB).
+  - New `.gitignore`, which leaves out:
+    - the upstream lerobot clone (unmodified lerobot 0.6.2, commit `b9cb121c`) and all of MuJoCo Menagerie except `robotstudio_so101/`;
+    - the scene `.before_*` backups;
+    - demos, LeRobot datasets, checkpoints, logs, videos (`*.mp4`) and per-episode `*.npz`;
+    - bulky calibration intermediates and `.claude/`.
+  - New top-level `README.md`: layout, setup, and what isn't in the repo.
+  - The Menagerie clone's `.git` was moved to `sim/mujoco_menagerie.upstream-git/` (git-ignored), so the SO-101 model folder could be tracked; move it back to update that clone.
