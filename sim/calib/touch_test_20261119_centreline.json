@@ -1,0 +1,66 @@
+{
+  "when": "2026-11-19 ~20:40",
+  "note": "centreline final test, results file was not saved by the script; values typed by the user, analysis used the planned joint angles",
+  "offsets_used": {
+    "shoulder_pan": -0.72,
+    "shoulder_lift": -0.57,
+    "elbow_flex": -6.84,
+    "wrist_flex": -2.44,
+    "wrist_roll": 3.07,
+    "gripper": 0.0
+  },
+  "hover_mm": 5,
+  "points_xy_m": [
+    [
+      0.13,
+      0
+    ],
+    [
+      0.17,
+      0
+    ],
+    [
+      0.21,
+      0
+    ],
+    [
+      0.25,
+      0
+    ],
+    [
+      0.28,
+      0
+    ]
+  ],
+  "heights_mm": [
+    4,
+    4,
+    null,
+    1,
+    0
+  ],
+  "forward_mm": [
+    63,
+    102,
+    142,
+    182,
+    212
+  ],
+  "lateral_mm": [
+    3,
+    null,
+    null,
+    null,
+    7
+  ],
+  "paper": {
+    "gap_mm": 1,
+    "tilt_mm": 2,
+    "span_mm": 300
+  },
+  "result": {
+    "rms_mm": 3.7,
+    "shoulder_lift_only_fit_deg": 1.2,
+    "rms_after_mm": 0.5
+  }
+}

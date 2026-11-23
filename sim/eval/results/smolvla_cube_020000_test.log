@@ -1,0 +1,61 @@
+W1123 10:29:19.666000 37001 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+objc[37001]: Class AVFFrameReceiver is implemented in both /opt/anaconda3/envs/lerobot/lib/python3.12/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x15d6243a8) and /opt/anaconda3/envs/lerobot/lib/python3.12/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x17e9703a8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+objc[37001]: Class AVFAudioReceiver is implemented in both /opt/anaconda3/envs/lerobot/lib/python3.12/site-packages/cv2/.dylibs/libavdevice.61.3.100.dylib (0x15d6243f8) and /opt/anaconda3/envs/lerobot/lib/python3.12/site-packages/av/.dylibs/libavdevice.61.3.100.dylib (0x17e9703f8). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+WARNING:lerobot.configs.policies:Device 'cuda' is not available. Switching to 'mps'.
+`torch_dtype` is deprecated! Use `dtype` instead!
+148 training start poses loaded
+Loading  HuggingFaceTB/SmolVLM2-500M-Video-Instruct weights ...
+Loading weights:   0%|          | 0/489 [00:00<?, ?it/s]Loading weights:   0%|          | 1/489 [00:00<06:05,  1.34it/s]Loading weights:  16%|█▌        | 77/489 [00:00<00:03, 118.56it/s]Loading weights:  23%|██▎       | 114/489 [00:01<00:02, 145.67it/s]Loading weights:  29%|██▉       | 144/489 [00:01<00:02, 162.03it/s]Loading weights:  35%|███▍      | 171/489 [00:01<00:01, 171.70it/s]Loading weights:  40%|████      | 196/489 [00:01<00:01, 178.90it/s]Loading weights:  45%|████▌     | 221/489 [00:01<00:01, 169.99it/s]Loading weights:  49%|████▉     | 242/489 [00:01<00:01, 169.53it/s]Loading weights:  54%|█████▎    | 262/489 [00:01<00:01, 169.17it/s]Loading weights:  57%|█████▋    | 281/489 [00:01<00:01, 167.63it/s]Loading weights:  62%|██████▏   | 301/489 [00:02<00:01, 146.97it/s]Loading weights:  65%|██████▍   | 317/489 [00:02<00:01, 149.31it/s]Loading weights:  68%|██████▊   | 333/489 [00:02<00:01, 150.96it/s]Loading weights:  75%|███████▌  | 367/489 [00:02<00:00, 199.64it/s]Loading weights:  84%|████████▍ | 413/489 [00:02<00:00, 262.17it/s]Loading weights:  94%|█████████▍| 461/489 [00:02<00:00, 293.97it/s]Loading weights: 100%|██████████| 489/489 [00:02<00:00, 178.85it/s]
+Reducing the number of VLM layers to 16 ...
+Loading weights from local directory
+joint units: real (offsets {'shoulder_pan': -0.72, 'shoulder_lift': 0.63, 'elbow_flex': -6.84, 'wrist_flex': -2.44, 'wrist_roll': 3.07, 'gripper': 0.0})
+policy: smolvla from outputs/train/smolvla_cube/020000/pretrained_model on mps, n_action_steps=50, temporal_ensemble=None
+scene pick_place_scene_real.xml: object 'cube', task "Pick and place the black cube into the container"
+30 test poses from eval/cube_poses.json [test]
+[  1/30] OK   x=0.251 y=+0.127 yaw= +22.0°   11.8s sim  success  nearest train    6 mm
+[  2/30] OK   x=0.232 y=+0.109 yaw= +26.3°   13.0s sim  success  nearest train    7 mm
+[  3/30] OK   x=0.207 y=+0.154 yaw= -42.1°   14.1s sim  success  nearest train    4 mm
+[  4/30] OK   x=0.162 y=+0.121 yaw=  -6.1°   14.4s sim  success  nearest train    2 mm
+[  5/30] OK   x=0.212 y=+0.165 yaw= +11.9°   15.1s sim  success  nearest train   10 mm
+[  6/30] OK   x=0.187 y=+0.098 yaw= +29.9°   16.9s sim  success  nearest train    5 mm
+[  7/30] OK   x=0.190 y=+0.128 yaw= +45.0°   20.5s sim  success  nearest train    2 mm
+[  8/30] OK   x=0.228 y=+0.139 yaw=  +9.0°   12.8s sim  success  nearest train    8 mm
+[  9/30] OK   x=0.234 y=+0.100 yaw= -19.8°   12.5s sim  success  nearest train    7 mm
+[ 10/30] OK   x=0.186 y=+0.159 yaw= -16.2°   12.3s sim  success  nearest train    7 mm
+[ 11/30] OK   x=0.236 y=+0.092 yaw=  +1.8°   10.4s sim  success  nearest train    8 mm
+[ 12/30] OK   x=0.224 y=+0.170 yaw= +37.8°   15.3s sim  success  nearest train    5 mm
+[ 13/30] OK   x=0.164 y=+0.140 yaw= -40.7°   14.0s sim  success  nearest train   12 mm
+[ 14/30] OK   x=0.214 y=+0.142 yaw= -22.7°   12.3s sim  success  nearest train   10 mm
+[ 15/30] OK   x=0.177 y=+0.153 yaw= +31.3°   10.9s sim  success  nearest train    5 mm
+[ 16/30] FAIL x=0.221 y=+0.131 yaw= +34.9°   45.0s sim  picked up, not placed in container  nearest train    7 mm
+[ 17/30] OK   x=0.238 y=+0.149 yaw= +42.1°   15.7s sim  success  nearest train    7 mm
+[ 18/30] OK   x=0.169 y=+0.127 yaw= +28.4°   11.7s sim  success  nearest train    2 mm
+[ 19/30] OK   x=0.207 y=+0.110 yaw= -36.4°   13.5s sim  success  nearest train    7 mm
+[ 20/30] OK   x=0.166 y=+0.088 yaw=  -0.4°   13.3s sim  success  nearest train    4 mm
+[ 21/30] OK   x=0.267 y=+0.185 yaw= -15.0°   11.8s sim  success  nearest train   12 mm
+[ 22/30] OK   x=0.305 y=+0.173 yaw= -25.8°   16.8s sim  success  nearest train    8 mm
+[ 23/30] OK   x=0.272 y=+0.136 yaw= +28.2°   10.4s sim  success  nearest train    7 mm
+[ 24/30] OK   x=0.243 y=+0.091 yaw= -22.2°   11.6s sim  success  nearest train    7 mm
+[ 25/30] OK   x=0.322 y=+0.143 yaw= +17.4°   12.5s sim  success  nearest train   11 mm
+[ 26/30] OK   x=0.241 y=+0.032 yaw= +35.4°   13.4s sim  success  nearest train   22 mm
+[ 27/30] OK   x=0.319 y=+0.064 yaw= -28.6°   13.9s sim  success  nearest train   12 mm
+[ 28/30] OK   x=0.291 y=+0.020 yaw=  +7.4°   12.3s sim  success  nearest train    8 mm
+[ 29/30] FAIL x=0.325 y=+0.005 yaw= +29.0°   45.0s sim  picked up, not placed in container  nearest train    5 mm
+[ 30/30] OK   x=0.288 y=+0.079 yaw= +36.2°   23.4s sim  success  nearest train    7 mm
+
+success: 28/30 = 93%  (95% CI 79-98%)
+    28  success
+     2  picked up, not placed in container
+time to success: mean 13.8s, min 10.4s, max 23.4s
+by region:
+  y < 0.06 (near the tray)     2/  3 =  67%
+  y >= 0.06                   26/ 27 =  96%
+  x < 0.19 (near the base)     7/  7 = 100%
+  x >= 0.19                   21/ 23 =  91%
+  |yaw| < 22.5 deg            12/ 12 = 100%
+  |yaw| >= 22.5 deg           16/ 18 =  89%
+distance to nearest training pose: median 7 mm, max 22 mm
+by distance to training data:
+  closer than 7 mm            13/ 15 =  87%
+  7 mm or further             15/ 15 = 100%
+results -> eval/results/smolvla_cube_020000_test.json

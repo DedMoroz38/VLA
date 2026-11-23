@@ -1,0 +1,105 @@
+{
+ "description": "4 showcase poses from the fixed test set: ids [2, 27, 9, 54]",
+ "poses": [
+  {
+   "id": 2,
+   "x": 0.22950985248217973,
+   "y": 0.05172206463618127,
+   "yaw_rad": -1.07848768625395,
+   "yaw_deg": -61.79279267918063,
+   "expert_success": true,
+   "nearest_training": {
+    "teleop": {
+     "xy_m": 0.04352833219016427,
+     "yaw_deg_at_nearest_xy": 4.516360475324338,
+     "min_yaw_deg": 4.516360475324338
+    },
+    "mimicgen": {
+     "xy_m": 0.003481556872910612,
+     "yaw_deg_at_nearest_xy": 85.99886141099623,
+     "min_yaw_deg": 0.39414859593917284
+    },
+    "scripted": {
+     "xy_m": 0.00758453782513372,
+     "yaw_deg_at_nearest_xy": 48.294955347125786,
+     "min_yaw_deg": 0.2452243894356826
+    }
+   }
+  },
+  {
+   "id": 27,
+   "x": 0.23419576376129142,
+   "y": 0.14742475012578862,
+   "yaw_rad": -0.12685003659231764,
+   "yaw_deg": -7.267971727819856,
+   "expert_success": true,
+   "nearest_training": {
+    "teleop": {
+     "xy_m": 0.007380950353273272,
+     "yaw_deg_at_nearest_xy": 79.97299360308664,
+     "min_yaw_deg": 7.267971727819837
+    },
+    "mimicgen": {
+     "xy_m": 0.0019806055431636663,
+     "yaw_deg_at_nearest_xy": 55.77969699038822,
+     "min_yaw_deg": 0.016848108593071336
+    },
+    "scripted": {
+     "xy_m": 0.004568746248217569,
+     "yaw_deg_at_nearest_xy": 10.911296808574038,
+     "min_yaw_deg": 0.35405130882864494
+    }
+   }
+  },
+  {
+   "id": 9,
+   "x": 0.19300560138331277,
+   "y": 0.10157245561216023,
+   "yaw_rad": 0.5389415582086592,
+   "yaw_deg": 30.87907668956036,
+   "expert_success": true,
+   "nearest_training": {
+    "teleop": {
+     "xy_m": 0.028146700694644505,
+     "yaw_deg_at_nearest_xy": 66.80346202333135,
+     "min_yaw_deg": 5.729986639905651
+    },
+    "mimicgen": {
+     "xy_m": 0.014380818794847296,
+     "yaw_deg_at_nearest_xy": 30.490419040923467,
+     "min_yaw_deg": 0.32326121428595245
+    },
+    "scripted": {
+     "xy_m": 0.005720323214685919,
+     "yaw_deg_at_nearest_xy": 80.91320486819102,
+     "min_yaw_deg": 1.405331261730771
+    }
+   }
+  },
+  {
+   "id": 54,
+   "x": 0.152424075327786,
+   "y": 0.05644168053656284,
+   "yaw_rad": 0.06812804531920928,
+   "yaw_deg": 3.9034494632666954,
+   "expert_success": true,
+   "nearest_training": {
+    "teleop": {
+     "xy_m": 0.010117471285616911,
+     "yaw_deg_at_nearest_xy": 50.78193633386335,
+     "min_yaw_deg": 3.9034494632667256
+    },
+    "mimicgen": {
+     "xy_m": 0.004547611592604686,
+     "yaw_deg_at_nearest_xy": 14.366254908937638,
+     "min_yaw_deg": 0.5076187920661517
+    },
+    "scripted": {
+     "xy_m": 0.0026412828296634287,
+     "yaw_deg_at_nearest_xy": 2.620637139299379,
+     "min_yaw_deg": 0.10884528410610654
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,219 @@
+<mujoco model="so101_pick_place_real">
+  <!-- fixed to the size without the floor patch: keeps near clip (19 mm) and shadows as before (calib/floor/build_floor.py) -->
+  <statistic center="0.4720 0.0000 -0.0100" extent="1.8722"/>
+  <!-- Real-look variant of pick_place_scene.xml, matched to the lab rig's two
+       cameras (see sim/calib/README.md). The object on the table is a 40 mm cube
+       (models/cube40mm.stl); the original eraser + tray version, which the
+       recorded demos use, is kept as pick_place_scene_real_eraser.xml.
+
+       What differs from pick_place_scene.xml:
+       - white printed robot parts and the fitted wrist_cam (so101_real.xml)
+       - a larger table whose back edge sits ~4 cm behind the robot base, as on
+         the real rig
+       - ext_cam moved to the real side camera: in front of the robot, facing
+         it across the table, Logitech C920 FOV at 640x480, pose fitted to
+         frames of the real arm
+       - neutral grey table and lighting tuned to the real camera frames
+       - the real lab floor (carpet tiles), 72 cm below the table top: a metric
+         texture built from the side camera and a photo (calib/floor/build_floor.py);
+         a plain mean-colour plane beyond it. Camera, table edge, light and floor
+         were re-tuned against the real arm on 2026-11-19/21 (calib/live_overlay.py). -->
+  <include file="so101_real.xml"/>
+
+  <visual>
+    <headlight diffuse="0.15 0.15 0.15" ambient="0.7000 0.7000 0.7000" specular="0 0 0"/>
+    <quality shadowsize="4096"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="180" elevation="-35"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+      markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    <material name="table_white" rgba="0.58 0.595 0.58 1" reflectance="0" specular="0"/>
+    <!-- 40 mm cube (coding/models/cube40mm.stl; path is relative to the meshdir
+         "assets"). The STL is in millimetres, hence the scale. Its origin is a
+         corner, and MuJoCo keeps the mesh where the file puts it, so the geom
+         below is shifted by -20 mm to put the cube's centre on the body origin. -->
+    <mesh name="cube40mm" file="../../../../models/cube40mm.stl" scale="0.001 0.001 0.001"/>
+    <!-- Black, like the real cube (matte, as printed PLA). -->
+    <material name="cube_mat" rgba="0.08 0.08 0.08 1" specular="0.1" shininess="0.2" reflectance="0"/>
+  
+    <!-- Real lab floor (calib/floor/build_floor.py): photo + C920, metric, 2 mm/px -->
+  
+    <!-- Real lab floor (calib/floor/build_floor.py): photo + C920, metric, 2 mm/px -->
+    <texture name="floor_real_tex" type="2d" file="assets/floor_real.png"/>
+    <material name="floor_real_mat" texture="floor_real_tex" texuniform="false" texrepeat="1 1" specular="0" shininess="0" reflectance="0"/>
+    <material name="floor_plain" rgba="0.427 0.407 0.351 1" specular="0" shininess="0" reflectance="0"/>
+  </asset>
+
+  <worldbody>
+    <!-- Lab lighting: diffuse ceiling panels, so mostly ambient (headlight) and one
+         soft overhead light. Tuned so table and robot pixel values match the
+         real side-cam frame (calib/compare_views.py). -->
+    <light name="ceiling" pos="-0.5046 -0.4417 1.5000" dir="0.0000 0.0000 -1.0000" type="spot" cutoff="70" exponent="0"
+      diffuse="0.1700 0.1700 0.1700" specular="0 0 0" bulbradius="0.5000" castshadow="true"/>
+
+    <geom name="floor" size="0 0 0.05" pos="0 0 -0.72" type="plane" material="floor_plain"/>
+    <geom name="floor_real" type="box" pos="-1.5000 0.0000 -0.7199" size="1.7000 2.2000 0.0005" material="floor_real_mat" contype="0" conaffinity="0" group="1"/>
+
+    <!-- Table: back edge at x=-0.071 (fitted from the real side-cam frames, see
+         calib/side_cam_fit.json), ~4 cm behind the base footprint (base spans
+         x -0.031..0.065); 1.2 m wide and running to x=0.915 towards the camera,
+         so its side and front edges stay out of the side camera's view. -->
+    <body name="table" pos="0.0500 0 0">
+      <geom name="table_top" type="box" pos="0.422 0 -0.01" size="0.493 0.6 0.01" material="table_white"/>
+      <geom name="table_leg_fl" type="box" pos="-0.041 0.57 -0.3700" size="0.02 0.02 0.3500" material="table_white"/>
+      <geom name="table_leg_fr" type="box" pos="-0.041 -0.57 -0.3700" size="0.02 0.02 0.3500" material="table_white"/>
+      <geom name="table_leg_bl" type="box" pos="0.885 0.57 -0.3700" size="0.02 0.02 0.3500" material="table_white"/>
+      <geom name="table_leg_br" type="box" pos="0.885 -0.57 -0.3700" size="0.02 0.02 0.3500" material="table_white"/>
+    </body>
+
+    <!-- Cube: resting on the tabletop (centre at z=0.02), where the eraser used
+         to start, inside the arm's top-down reach (x 0.14-0.26, y -0.04-0.16).
+         Mass is a guess for a printed cube. -->
+    <body name="cube" pos="0.18 0.14 0.02">
+      <freejoint/>
+      <geom name="cube_geom" type="mesh" mesh="cube40mm" pos="-0.02 -0.02 -0.02" material="cube_mat" mass="0.03"
+        friction="1 0.005 0.0001"/>
+    </body>
+
+    <!-- Side camera (real: Logitech C920 at 640x480, a 4:3 centre crop of its
+         1080p frame, so vertical FOV 43.3 deg). In front of the robot facing
+         it, pitched 45 deg down. Fitted (calib/fit_side_cam.py) to 9 frames of
+         the real arm in known poses plus the real table's back edge: mean
+         robot-silhouette IoU 0.64, table edge within 0.35 px. -->
+    <camera name="ext_cam" mode="fixed" pos="0.4647 0.0027 0.5950"
+      xyaxes="0.0159 0.9996 -0.0217  -0.8595 0.0247 0.5105" fovy="43.55"/>
+    <!-- container:begin (sim/container/build_container.py; edit there and re-run) -->
+    <!-- Placement container: 203 x 131 mm outer, corners r 17 mm,
+         55 mm tall, transparent (wall thickness a guess; colours fitted to the real camera),
+         outlined by a 18 mm band of green tape (square corners) stuck to the table round its base. Fixed to the
+         tabletop beside the robot, opposite the cube's start area, fully inside the side
+         camera's frame. Visual meshes; collision boxes/cylinders in group 3. -->
+    <body name="container" pos="0.2095 -0.2245 0" euler="0 0 0.00000">
+      <geom name="container_shell" type="mesh" mesh="container_shell" material="container_mat" contype="0" conaffinity="0" mass="0"/>
+      <geom name="container_tape" type="mesh" mesh="container_tape" material="container_tape_mat" contype="0" conaffinity="0" mass="0"/>
+      <geom name="container_floor_x" type="box" pos="0.00000 0.00000 0.00100" size="0.09950 0.04850 0.00100" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_floor_y" type="box" pos="0.00000 0.00000 0.00100" size="0.08450 0.06350 0.00100" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_px" type="box" pos="0.10050 0.00000 0.02750" size="0.00100 0.04850 0.02750" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_nx" type="box" pos="-0.10050 0.00000 0.02750" size="0.00100 0.04850 0.02750" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_py" type="box" pos="0.00000 0.06450 0.02750" size="0.08450 0.00100 0.02750" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_ny" type="box" pos="0.00000 -0.06450 0.02750" size="0.08450 0.00100 0.02750" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_floor_c0" type="cylinder" pos="0.08450 0.04850 0.00100" size="0.01500 0.00100" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c00" type="box" pos="0.10019 0.05162 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 0.19635" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c01" type="box" pos="0.09780 0.05739 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 0.58905" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c02" type="box" pos="0.09339 0.06180 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 0.98175" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c03" type="box" pos="0.08762 0.06419 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 1.37445" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_floor_c1" type="cylinder" pos="-0.08450 0.04850 0.00100" size="0.01500 0.00100" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c10" type="box" pos="-0.08762 0.06419 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 1.76715" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c11" type="box" pos="-0.09339 0.06180 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 2.15984" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c12" type="box" pos="-0.09780 0.05739 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 2.55254" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c13" type="box" pos="-0.10019 0.05162 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 2.94524" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_floor_c2" type="cylinder" pos="-0.08450 -0.04850 0.00100" size="0.01500 0.00100" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c20" type="box" pos="-0.10019 -0.05162 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 3.33794" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c21" type="box" pos="-0.09780 -0.05739 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 3.73064" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c22" type="box" pos="-0.09339 -0.06180 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 4.12334" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c23" type="box" pos="-0.08762 -0.06419 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 4.51604" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_floor_c3" type="cylinder" pos="0.08450 -0.04850 0.00100" size="0.01500 0.00100" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c30" type="box" pos="0.08762 -0.06419 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 4.90874" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c31" type="box" pos="0.09339 -0.06180 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 5.30144" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c32" type="box" pos="0.09780 -0.05739 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 5.69414" group="3" rgba="0.714 0.727 0.673 1"/>
+      <geom name="container_wall_c33" type="box" pos="0.10019 -0.05162 0.02750" size="0.00100 0.00334 0.02750" euler="0 0 6.08684" group="3" rgba="0.714 0.727 0.673 1"/>
+    </body>
+    <!-- container:end -->
+  </worldbody>
+
+  <keyframe>
+    <!-- Start pose = where the arm actually rests in the recorded demos: the median first frame of the
+         first 6 leader takes (2026-11-21; leader units pan 0.7, lift -100.7 (sim limit), elbow 88.9,
+         wrist_flex 76.1, roll 2.4, gripper 0.4). Clear of the table by 24 mm and of every cube pose in
+         eval/cube_poses.json by >= 22 mm. Teleop resets here and follows the leader once every joint is
+         within 15 deg; eval starts here. (Earlier: real rest measured once, with margins.) -->
+    <key name="ready"
+      qpos="0 -1.745 1.4329 1.2854 0.0955 -0.1649  0.18 0.14 0.02 1 0 0 0"
+      ctrl="0 -1.745 1.4329 1.2854 0.0955 -0.1649"/>
+  </keyframe>
+  <!-- Cube contacts (2026-11-21). The gripper's finger collision shapes are thin plates (2 mm),
+       and with the default soft contacts the jaws sank ~5 mm into the cube while squeezing (and
+       could tunnel through), and pressing pushed the cube ~7 mm into the table. Explicit pairs:
+       cube-finger contacts start 1.5 mm out (margin) and are stiffer, so the jaws stop at the
+       surface (~0.35 mm gap while holding); cube-table is stiffer. Cube scene only. -->
+  <contact>
+    <exclude body1="cube" body2="gripper"/>
+    <exclude body1="cube" body2="moving_jaw_so101_v1"/>
+    <exclude body1="cube" body2="table"/>
+    <pair geom1="cube_geom" geom2="gripper_wrist_box" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_mesh" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="moving_jaw_mesh0" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="moving_jaw_mesh1" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_box1" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_box2" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_box3" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_box4" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_box5" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_box6" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_box7" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_sph_tip1" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_sph_tip2" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="fixed_jaw_sph_tip3" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="moving_jaw_box1" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="moving_jaw_box2" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="moving_jaw_box3" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="moving_jaw_sph_tip1" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="moving_jaw_sph_tip2" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="moving_jaw_sph_tip3" condim="4" margin="0.0015" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1.5 1.5 0.005 0.0005 0.0005"/>
+    <pair geom1="cube_geom" geom2="table_top" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+  </contact>
+  <!-- container:begin (sim/container/build_container.py) -->
+  <asset>
+    <mesh name="container_shell" file="container_shell.obj"/>
+    <mesh name="container_tape" file="container_tape.obj"/>
+    <!-- clear plastic: mostly see-through, with a little gloss -->
+    <material name="container_mat" rgba="0.714 0.727 0.673 0.25" specular="0.4" shininess="0.6" reflectance="0"/>
+    <!-- tape and container colours: fitted to the real side camera (container/match_color.py) -->
+    <material name="container_tape_mat" rgba="0.196 0.368 0.27 1" specular="0" shininess="0" reflectance="0"/>
+  </asset>
+  <custom>
+    <!-- object_in_container(): cube centre within +/-x, +/-y of the container centre
+         (inside half-size minus the cube half-size minus 5 mm) and z within [zmin, zmax] -->
+    <numeric name="container_tol" data="0.0745 0.0385 0 0.0550"/>
+    <!-- object_in_container(): "at rest" = linear speed < 0.005 m/s and angular speed < 0.05 rad/s
+         (a resting cube micro-rocks at ~0.01 rad/s on the container floor; the eraser scenes keep
+         their original angular-only 0.01 rad/s test) -->
+    <numeric name="container_rest" data="0.005 0.05"/>
+  </custom>
+  <contact>
+    <!-- cube-container: stiff like cube-table, so a dropped cube does not sink into the floor -->
+    <exclude body1="cube" body2="container"/>
+    <pair geom1="cube_geom" geom2="container_floor_x" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_floor_y" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_px" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_nx" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_py" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_ny" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_floor_c0" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c00" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c01" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c02" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c03" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_floor_c1" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c10" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c11" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c12" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c13" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_floor_c2" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c20" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c21" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c22" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c23" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_floor_c3" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c30" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c31" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c32" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+    <pair geom1="cube_geom" geom2="container_wall_c33" condim="3" solref="0.01 1" solimp="0.95 0.99 0.001" friction="1 1 0.005 0.0001 0.0001"/>
+  </contact>
+  <!-- container:end -->
+</mujoco>

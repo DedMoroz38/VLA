@@ -1,0 +1,67 @@
+{
+  "episodes": [
+    {
+      "pose_id": 300,
+      "x": 0.2510411039184175,
+      "y": 0.1267054923577832,
+      "yaw_deg": 21.959441148378957,
+      "outcome": "never grasped",
+      "seconds": 39.52,
+      "steps": 150,
+      "overruns": 10,
+      "video": "pose0300.mp4",
+      "time": "2026-11-23T12:42:23"
+    },
+    {
+      "pose_id": 302,
+      "x": 0.2072911039184175,
+      "y": 0.15386598618494374,
+      "yaw_deg": -42.12055885162104,
+      "outcome": "never grasped",
+      "seconds": 14.52,
+      "steps": 200,
+      "overruns": 4,
+      "video": "pose0302.mp4",
+      "time": "2026-11-23T12:50:16"
+    },
+    {
+      "pose_id": 303,
+      "x": 0.1619786039184175,
+      "y": 0.12053265285161038,
+      "yaw_deg": -6.1205588516210465,
+      "outcome": "never grasped",
+      "seconds": 5.91,
+      "steps": 66,
+      "overruns": 2,
+      "video": "pose0303.mp4",
+      "time": "2026-11-23T12:50:44"
+    },
+    {
+      "pose_id": 304,
+      "x": 0.2119786039184175,
+      "y": 0.1649770972960548,
+      "yaw_deg": 11.879441148378973,
+      "outcome": "never grasped",
+      "seconds": 6.95,
+      "steps": 91,
+      "overruns": 3,
+      "video": "pose0304.mp4",
+      "time": "2026-11-23T12:51:08"
+    }
+  ],
+  "checkpoint": "outputs/train/smolvla_cube/020000/pretrained_model",
+  "poses": "eval/cube_poses.json",
+  "split": "test",
+  "task": "Pick and place the black cube into the container",
+  "mode": "live",
+  "max_step": 10.0,
+  "joint_map": {
+    "shoulder_pan": -0.72,
+    "shoulder_lift": 0.63,
+    "elbow_flex": -6.84,
+    "wrist_flex": -2.44,
+    "wrist_roll": 3.07,
+    "gripper": 0.0
+  },
+  "updated": "2026-11-23T12:51:08"
+}

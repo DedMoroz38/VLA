@@ -1,0 +1,38 @@
+# OS / Python / editor
+.DS_Store
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# Claude Code local settings
+.claude/
+
+# Upstream lerobot clone: unmodified lerobot 0.6.2 (commit b9cb121c) -> install it with pip instead
+robot/lerobot/
+
+# MuJoCo Menagerie clone: only the SO-101 model (with this project's scenes and assets) is kept
+sim/mujoco_menagerie/*
+!sim/mujoco_menagerie/robotstudio_so101/
+sim/mujoco_menagerie/robotstudio_so101/*.before_*
+
+# Large data and training output (regenerate or keep elsewhere)
+sim/demos/
+sim/lerobot_dataset/
+sim/outputs/
+sim/*.log
+
+# Videos and per-episode arrays from evaluations (results JSON and summary images are kept)
+*.mp4
+*.npz
+sim/eval/videos/
+sim/eval/videos_showcase/
+
+# Bulky calibration intermediates
+sim/calib/wrist_mount/candidates/
+sim/calib/floor/*_valid.npy
+
+# The Menagerie clone's own git data, moved aside so the SO-101 folder can be tracked here
+# (move it back to sim/mujoco_menagerie/.git to update the clone)
+sim/mujoco_menagerie.upstream-git/

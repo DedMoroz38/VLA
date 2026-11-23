@@ -1,0 +1,38 @@
+{
+  "pos": [
+    0.594,
+    0.0054,
+    0.4934
+  ],
+  "xyaxes": [
+    -0.009,
+    0.9998,
+    -0.0197,
+    -0.7071,
+    0.0076,
+    0.7071
+  ],
+  "fovy": 43.3,
+  "pitch_down_deg": 45.0,
+  "joint_offsets_deg": {
+    "shoulder_pan": -0.72,
+    "shoulder_lift": 9.43,
+    "elbow_flex": 0.16,
+    "wrist_flex": -19.94,
+    "wrist_roll": 2.57
+  },
+  "table_back_edge_x": -0.0709,
+  "table_edge_rms_px": 0.35,
+  "iou_per_frame": {
+    "rest": 0.597,
+    "P1": 0.745,
+    "P2": 0.63,
+    "P3": 0.65,
+    "P4": 0.683,
+    "P5": 0.71,
+    "P6": 0.609,
+    "P7": 0.594,
+    "P8": 0.566
+  },
+  "mean_iou": 0.643
+}

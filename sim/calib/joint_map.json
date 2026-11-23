@@ -1,0 +1,22 @@
+{
+  "description": "sim_rad = radians(real_deg + offset); gripper: sim_rad = gripper_closed_rad + radians(real_pct/100 * gripper_span_deg + offset). See sim/joint_units.py.",
+  "offsets_deg": {
+    "shoulder_pan": -0.72,
+    "shoulder_lift": 0.63,
+    "elbow_flex": -6.84,
+    "wrist_flex": -2.44,
+    "wrist_roll": 3.07,
+    "gripper": 0.0
+  },
+  "gripper_span_deg": 129.902,
+  "gripper_closed_rad": -0.174533,
+  "sources": {
+    "offsets": "calib/live_overlay.json",
+    "gripper_span": "/Users/egormaksimov/.cache/huggingface/lerobot/calibration/robots/so_follower/so101_follower.json",
+    "follower_gripper_range_raw": [
+      2039,
+      3517
+    ]
+  },
+  "updated": "2026-11-21 18:29:02"
+}
