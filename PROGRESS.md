@@ -254,7 +254,7 @@
 
 ## 2026-11-23
 
-**Summary:** SmolVLA cube run finished on Iridis (20k steps, 11 h on an L4): 28/30 = 93% (95% CI 79-98%) on the held-out test poses in sim. Built `sim/run_policy_real.py` (shadow / step / live / camera-mix modes) and tried sim-to-real. **Zero-shot transfer fails**: on real camera images the policy plans almost no motion. The camera-mixing test shows the real wrist image freezes it and the real side image misleads it. Offline tests show the policy depends on fine wrist-image detail (a blur breaks it; shadows don't matter). Everything except the vision (joint units, cameras, control loop, start pose, eval) works on the real rig. Next: retrain with image augmentation plus visually randomised re-renders of the 148 demos; real demos as the backup.
+**Summary:** SmolVLA cube run finished on Iridis (20k steps, 11 h on an L4): 28/30 = 93% (95% CI 79-98%) on the held-out test poses in sim; 29/30 by eye, since pose 315 is a success rejected only by our 5 mm wall margin, and 508 drops the cube just before the container. Built `sim/run_policy_real.py` (shadow / step / live / camera-mix modes) and tried sim-to-real. **Zero-shot transfer fails**: on real camera images the policy plans almost no motion. The camera-mixing test shows the real wrist image freezes it and the real side image misleads it. Offline tests show the policy depends on fine wrist-image detail (a blur breaks it; shadows don't matter). Everything except the vision (joint units, cameras, control loop, start pose, eval) works on the real rig. Next: retrain with image augmentation plus visually randomised re-renders of the 148 demos; real demos as the backup.
 
 - Checked the Iridis training: job 2320192 COMPLETED, 20,000 steps in 10 h 57 min on an NVIDIA L4 (batch 64 fit, 14.4 GB of GPU memory, ~1.94 s/step); loss 0.128 at 1k steps → ~0.024 at 20k. The chained jobs 2320193/2320194 started, saw the run was done and exited. Downloaded `checkpoints/020000/pretrained_model` (868 MB) to `sim/outputs/train/smolvla_cube/020000/pretrained_model`; started the closed-loop sim eval on the 30 test poses (`sim/eval/results/smolvla_cube_020000_test.{json,log}`, videos in `sim/eval/videos/smolvla_cube_020000/`).
 - Sim eval of SmolVLA `smolvla_cube` @20k on the 30 test poses: **28/30 = 93%** (95% CI 79-98%), mean time to success 13.8 s (10.4-23.4 s). Both failures were "picked up, not placed in container" (pose 16: x 0.221 y 0.131 yaw +35°; pose 29: far pose x 0.325 y 0.005 yaw +29°). 9/10 on the new far test poses. Videos of the first 5 episodes (all successes) in `sim/eval/videos/smolvla_cube_020000/`.
@@ -291,3 +291,184 @@
     - bulky calibration intermediates and `.claude/`.
   - New top-level `README.md`: layout, setup, and what isn't in the repo.
   - The Menagerie clone's `.git` was moved to `sim/mujoco_menagerie.upstream-git/` (git-ignored), so the SO-101 model folder could be tracked; move it back to update that clone.
+- Real-robot results so far (all saved in `sim/eval/real/`):
+  - Plain live, real side + real wrist (`smolvla_cube_020000/`): 0/4, all "never grasped".
+  - `--step --sim-wrist`, real side + sim-twin wrist (`smolvla_cube_020000_simwrist/`, 19 test poses): **1/19 success** (pose 319); 3 grasped but not placed (303, 310, 507); 15 never grasped.
+  - Replaying each episode's sent commands in the sim twin: the twin's cube was also not grasped in most episodes (lifted ≤ 5 mm in 11 of 19). The twin tracked the real joints to ~2-3° (median).
+  - **Correction** (the user saw the arm go the right way every time; the measurements confirm it). Forward kinematics of the measured joints shows:
+    - The gripper always heads to the cube: from 87-207 mm away down to a median of 27 mm.
+    - It then stops consistently ~24 mm short along the base→cube line (sideways -3 ± 10 mm) and hovers with the gripper ~40% open, never closing. In the sim demos the gripper point is ~4 mm from the cube centre at lift.
+    - Of the shortfall, -18 mm is in the policy's own targets; the real arm lags its commands by another ~6 mm (elbow +1.7°, shoulder_lift +0.9°, likely gravity sag).
+    - So the real side camera does give the cube's coarse position; what fails is the final ~2 cm alignment and the grasp.
+    - Next checks: stiffer servo tracking (P gain), and whether the real side image shows the gripper ~2 cm closer to the cube than it is (a side-camera calibration bias).
+  - One twin physics glitch (pose 309: sim cube flung away).
+  - Recorded episode durations include the step-mode pauses.
+- New `sim/analyze_grasps.py`: where the jaws grip the cube. It restores the exact sim state at lift and reads the jaw-cube contacts in the cube's frame. Measures: side offset along the gripped face, height, and tilt of the jaw-to-jaw line. With `--failures`, it re-runs an eval's failed poses with video. Output in `sim/eval/grasps/` (grasp_map.png, grasps.json, fail_*.mp4).
+  - Demos (138 of 148 with a two-jaw grip at lift):
+    - side offset median 6.4 mm; 25% are ≥ 10 mm off centre and 2% ≥ 15 mm (the edge is 20 mm);
+    - grips are high on the cube, median +8.7 mm above mid-height (top edge +20);
+    - tilt median 10°, 40 grips ≥ 15°.
+  - The two sim eval failures, re-run:
+    - Pose 315 (yaw +35°): **a success by eye, rejected only by the limits we set.** Grip centred (+3.4 mm), tilted 32°. The cube is carried over and released into the container, where it rests on the floor against the inner wall. The success test needs the cube centre ≥ 5 mm clear of the wall (`container_tol` y 38.5 mm; physically inside up to 43.5 mm; the cube was at 42.5 mm in the original run). Same outcome in the re-run.
+    - Pose 508 (far pose, 32.5 cm from the base): **very close.** From the video, the policy picks the cube but drops it early, before reaching the container. (The contact check found no clean two-jaw grip at the lift frame. In the original eval run the cube was flung off the table by a physics glitch.)
+    - Adjusted sim result: 29/30 by eye (315 counted as a success); the only real miss is a far-pose drop.
+  - So neither sim failure comes from an off-centre grip. The real-robot failure (stopping ~2 cm short and never closing) is a third, different mode.
+- Offline swap test (`sim/eval/real/swap_test/`): real side frames (arm at 'ready', real cube on pose j) combined with sim wrist renders (cube on pose i), 8×8 poses, real and sim side images. **Inconclusive by design.** Even with all-sim images, the first 1.5 s plan barely depends on the cube's position: the pan swing follows neither image (coefficients -0.07..-0.18), and the end points make the same short forward move. Localisation happens later in the approach, so a start-pose test can't separate the cameras.
+- `run_policy_real.py --twin-pose ID` (with `--sim-wrist`) for the decisive live version: the real cube goes on the outlined pose and the sim cube, seen by the wrist view, on another pose (magenta outline). Where the arm goes shows which camera it follows. Smoke-tested with the fake arm. Suggested pair: 311 ↔ 319 (101 mm apart).
+- Twin-pose test (live, `--sim-wrist --step`), real cube and sim cube on different poses:
+  - Real cube on 319, sim cube on 311: the sim wrist view never shows a cube (empty table throughout), yet the arm goes straight down onto the real cube (user observation; confirmed in the video, `sim/eval/real/smolvla_cube_020000_simwrist_twin311/pose0319.mp4`). **The real side camera alone locates the cube.** Together with the 19 sim-wrist episodes (each cube reached within ±1 cm sideways), the side-camera gap is in the final ~2 cm, not in locating the cube.
+  - The reverse case (real 311, sim 319) is confounded: the sim cube is in the wrist view from the start.
+  - Only the videos were saved for these two runs: the episodes were ended without an outcome key.
+- `run_policy_real.py`: `q` during an episode (and Ctrl-C) now saves the episode as an abort (video, joints, results entry) before quitting. Aborts go to a separate `aborted` list, so they never overwrite a real outcome for the same pose. Mock-tested.
+- `run_policy_real.py --sim-all`: vision removed. The policy sees only the sim twin (both cameras plus the twin's joint state), and the real arm executes the same clipped commands on the real cube. Each episode records the twin's own outcome (`twin_success`, `twin_max_lift_mm`) next to the real one, so real-vs-twin success measures how well the sim's physics and calibration match the real rig. The window and video show sim side | sim wrist | real side. Offline test with an ideal fake arm: 300 and 301 succeeded (twin too). On 302 the sim cube was flung 580 mm, the third sim cube-ejection glitch seen today (after twin 309 and eval 508), worth investigating.
+- First `--sim-all` results on the real rig (`sim/eval/real/smolvla_cube_020000_simall/`):
+  - Twin succeeded on 300, 301 and 303. The real arm succeeded on 301 and 303 and never grasped on 300: 2 of the 3 movements that worked in sim also worked on the real cube.
+  - Not informative: 302 and 304 (the twin failed itself) and 305 (aborted).
+  - Small sample, but the sim's physics and calibration look roughly right; vision remains the main gap.
+- Discussed moving to Isaac Sim: not now. It needs an NVIDIA RTX GPU (no Mac support), means a big port (calibrated cameras and wrist lens, container, teleop, export), and photorealism alone rarely closes the gap; randomisation and augmentation do that and are available in MuJoCo with the existing demos. Revisit only if randomised re-renders plus augmentation (and then real demos) stall. Even then, prefer re-rendering the recorded MuJoCo episodes with a photoreal renderer over porting everything.
+- Read the project papers in the parent folder (`../1.pdf`..`11.pdf`) for how to randomise. Most relevant:
+  - 9, Jin et al. 2026 (VLA zero-shot sim-to-real, >10k real trials):
+    - spatial randomisation (camera pose, table height) gives the biggest gains;
+    - appearance randomisation (background, lighting) adds on top;
+    - all factors combined is best;
+    - frame-wise beats episode-wise for background and camera pose;
+    - higher fidelity helps, with diminishing returns.
+  - 7, DrEureka: RAPP picks each parameter's range from where the policy still succeeds in sim, one parameter at a time, instead of guessing.
+  - 11, Xie et al.: camera position is the hardest shift and background the easiest; random-crop augmentation helps spatial and non-spatial shifts.
+  - 4, Tobin: non-realistic random textures, lights, camera and noise transfer for localisation (~1.5 cm).
+  - 5, Peng: dynamics randomisation. Not usable when re-rendering fixed demos, since it needs new demos.
+  - Plan: measured, targeted randomisation:
+    1. Measure the real-vs-sim gaps from the paired real/twin frames we already have.
+    2. Run a RAPP-style sensitivity sweep of the current policy per factor.
+    3. Re-render the 148 demos ×K with render-only factors: camera-pose jitter, lighting, textures and colours, visual-only distractors, sensor blur/noise/exposure, frame-wise where the paper found it helps.
+    4. Train on Colab with LeRobot crop/colour augmentation.
+- New `sim/calib/capture_pairs.py`: matched real/sim image pairs for measuring the sim-to-real gap.
+  - Our existing real frames were not enough: the wrist frames are mostly at rest and only in compressed video (which distorts sharpness and noise), with nothing of the final approach.
+  - How it works: follower torque off (moved by hand), cube on a test-pose outline, the window shows real (top) vs sim twin (bottom) live. Each SPACE saves lossless real side and wrist frames (wrist rotated as the policy sees it), the joints, and the sim renders at those joints; snapshots taken while moving are refused.
+  - Output: `sim/calib/pairs/<date_time>/` (git-ignored) plus `pairs.json` (gripper-to-cube distance per pair).
+  - Default poses: 300, 305, 311, 319, 500. Tested offline with fake devices.
+- Added `--leader [PORT]` to `sim/calib/capture_pairs.py` (user request). The follower is torqued and follows the leader at ≤`--max-step` (default 2°/tick). Put the leader down to hold a pose, with no hand in the wrist view. Quitting moves the follower back to rest before torque is released. Tested offline with a fake leader, follower and cameras: the follower converges, a pair is saved, and it returns to rest.
+- The user reported the follower's elbow not following the leader in `capture_pairs.py --leader`. Command limits ruled out: the elbow is allowed −90…104°. Added `sim/calib/check_motors.py`, a read-only check that prints leader vs follower positions plus the follower's torque, error-status bits, load, current, temperature and voltage per joint. Not run yet: the capture was still holding both ports.
+- `check_motors.py` result: all six follower servos healthy at rest (no error bits, 29–32 °C, 11.8–12.0 V), and the elbow matches the leader to 0.1°. So the elbow problem only shows while torqued and loaded, or it cleared when torque was released. `capture_pairs.py --leader` now reads every servo's error bits and load each tick. The window shows lags >5°, any error bit and load >60%; the terminal prints errors when they change. Everything is logged to `follow_log.csv` in the output folder. Tested with a faked elbow overload.
+- The user suggested the leader could be the cause. Added `--watch` to `sim/calib/check_motors.py`: live leader degrees, leader raw encoder ticks and follower degrees, 5×/s. Bending each arm's elbow by hand then shows whether the leader's elbow reading tracks smoothly across its range.
+- `check_motors.py --watch` showed the follower's elbow reading does not change when its elbow is moved by hand, so the fault is the follower, not the leader. Most likely the elbow link has come loose from the servo (horn screw or splines): the link moves without turning the shaft, and under torque the shaft turns without moving the link. Less likely, a failed position sensor. It worked in today's `--sim-all` runs. Next: inspect the horn and screws; after a fix, recalibrate the follower (`lerobot-calibrate`) and re-check the joint map. The follower is not to be used under torque until then.
+- Correction: the follower's elbow is fine; it works with `lerobot-teleoperate`. The bug was in `capture_pairs.py --leader`, which clipped each command to 2° from the *measured* position. A proportional servo gets too little torque from a 2° error to lift the loaded elbow, so it never moved and stalled forever (`run_policy_real.py` uses 10°, so it was unaffected). Fixed: the rate limit is now on the target, which walks toward the leader by ≤`--max-step`/tick, with a 25° safety cap from the measured position. Checked on a fake servo that stalls below a 4° error: old logic stuck at 88.9°, new logic reaches 64° for a 60° leader (the 4° gap is the fake's deadband).
+- First real/sim pair capture (`sim/calib/pairs/20261123_202747/`, with `--leader`): 35 pairs, all 140 PNGs readable (side 640×480, wrist 480×640 rotated):
+  - poses 300 ×8, 305 ×7, 311 ×7, 319 ×7, 500 ×6;
+  - each covers rest, mid-way, above the cube and close to it (5–38 mm from the cube centre, down to 10 mm high).
+  - The follow log (510 s, 15.7 Hz) shows no servo error bits on any joint. The elbow now follows: median lag 0.3°, p95 5.5°, which confirms the stall fix. Earlier folders from the same evening are test runs (0–2 pairs).
+- Gap measurement: new `sim/calib/measure_gap.py`, run on the 35 pairs. The sim is re-rendered with segmentation, so each factor is measured on its own region: floor, table, container, cube, arm, fixed jaw, moving jaw.
+  - **Method:**
+    - geometry: chamfer fit of the sim outlines onto real edges (with a scale term for the wrist);
+    - colour: CIELAB per region;
+    - shadows: table pixels below 95/90/85/80% of the lit table level;
+    - blur: the Gaussian sigma that matches sim edge softness to real;
+    - noise: Immerkaer estimator.
+  - Output: `gap.json` and `gap.png` in the pairs folder. The first version's wrist blur (pinned at 6 px) and shadow metric were wrong; both were fixed and rerun.
+  - **Side camera:** close to real.
+    - Geometry: static scene +1/+1 px, arm −2/−2 px, cube −1/+2 px.
+    - Table and floor within ±4% lightness; colour cast ≤2 a/b units.
+    - Real arm 19% darker (gain 0.81, p10–p90 0.74–0.86); real cube blacker (L 0.8 vs 4.7).
+    - Blur ≈0.4 px; noise σ 0.6 vs 0.
+  - **Shadows (biggest side gap):** the sim table is flat, with one hard shadow at ~0.87 of lit (10% of the table) and nothing darker. The real table darkens gradually (soft shadows plus uneven light): 40% below 0.90, 12% below 0.80, darkest 2% at 0.62.
+  - **Wrist camera:**
+    - Geometry error: the real cube appears 24 px left (p10–p90 18–39 px, on a 480-px-wide image) and ~5% larger than in sim, consistent across all 5 poses, with 1–3 px fit residuals. This lines up with the final-approach failure.
+    - Jaw fits are unreliable (the real jaws are too blurred), so mount rotation can't be separated from the lens fit yet.
+    - Table, arm and fixed-jaw brightness within ~1%.
+    - Blur varies 0–5 px, mostly higher when further from the cube; almost no noise (the camera denoises).
+    - The sim's large flat arm shadow covers ~40% of the view at 0.87 of lit; real shading is softer and patchier.
+  - **Distractor:** the 8 pose-300 pairs have a second cube sitting in the container in the real side view.
+  - Proposed next: refit the wrist camera pose and focal length from the ~30 good cube fits (fidelity fix), then randomise around the measured ranges.
+- Cube-displacement check (user: the cube can be nudged in the close-up snapshots, while the sim cube stays put). Split the results into snapshots 1–3 per pose (before any contact) and 4+:
+  - **Unaffected:** side arm gain 0.79 / 0.83, table gain 0.97 / 0.95, real table share below 90% lit 0.40 / 0.41 (sim 0.09 / 0.10), noise identical, wrist table gain 1.04 / 1.00.
+  - **Wrist cube offset holds before contact:** −21 px in snapshots 1–3 (9 good fits) and −31.5 px in 4+. In the pre-contact frames the side camera puts the cube within 0–4 px of its outline, in a different direction at each pose, while the wrist offset is always to the left. So it is systematic camera error, not placement. Corrections:
+    - the "5% larger" was mostly from close frames (1.02 before contact);
+    - the larger close-range offset may partly be nudging.
+  - **Side camera shows the cube moved** (or the fit was confused by the jaws) in 4 close frames: 305 #6, 311 #7, 319 #7, 500 #4 (offset 16–27 px). These get excluded from the wrist refit, which will use only frames where the side camera confirms the cube is on its outline (≤5 px).
+  - **Wrist blur appears only close up:** 0.4 px in snapshots 1–3 vs 2.7 px in 4+. Possibly genuine near-range defocus, possibly a measurement effect; uncertain.
+- Wrist offset cause (`sim/calib/wrist_offset_cause.py`, 20 clean pairs). Three candidate causes: camera mount, arm kinematics, cube placement.
+  - Matching the real wrist view needs the sim cube moved ~11 mm (world −7.7, +8.5 mm).
+  - **Placement ruled out:** that move would show as 7–12 px in a known direction in the side camera (~1 px/mm there), but the side camera measured 0–4 px, often in the opposite direction.
+  - **Arm ruled out as the main cause:** the side camera puts the arm and jaws within ~2–3 mm.
+  - **Mount confirmed:** the real jaws are also shifted in the wrist image (median 10 px; jaw IoU 0.65 → 0.79 when shifted).
+  - Conclusion: the main error is the wrist camera's mount pose. The old fit (`fit_wrist_pose.py`) used only the jaws of one frame, which can't separate a small turn from a small shift.
+  - Started `sim/calib/refit_wrist_cam.py`: a 6-DOF mount pose fit with the lens fixed. Cost: cube-outline chamfer on real edges plus 10 × (1 − jaw IoU). It runs a leave-one-pose-out check and writes the scene only with `--write`, keeping a `.before_wrist_refit` backup.
+- Wrist mount refit (`refit_wrist_cam.py`): **not applied.**
+  - All pairs: cube edge error 9.5 → 8.3 px only; jaw IoU 0.65 → 0.82.
+  - Held-out poses: 300 9.6 → 8.8, 305 9.3 → 8.4, 311 9.5 → 10.3 (worse), 319 10.0 → 7.2, 500 9.9 → 7.2.
+  - The camera was pushed to the 8 mm plausibility cap (moved 5.4/−1.8/−5.6 mm, turned 3.5°).
+  - The overlay (`wrist_refit.png`) shows the jaw outlines already sit on the real jaws, while the real cube is consistently left of its outline and slightly turned. That fits a joint error rather than a mount error: a joint error moves the gripper relative to the cube while the jaws stay fixed in the camera view, and the side camera misses it if it lies along its line of sight.
+  - Started `refit_joint_offsets.py`: one constant offset per arm joint (pan, lift, elbow, wrist flex, wrist roll, capped ±6°). Cost: wrist cube chamfer + side arm chamfer, so the side alignment can't be traded away. Leave-one-pose-out check; writes only a json and an overlay.
+- Joint-offset fit (`refit_joint_offsets.py`): **not applied.** It doesn't generalise.
+  - Held-out wrist cube error: 300 9.6 → 4.1, 305 9.3 → 8.9, 311 9.5 → 8.6, 319 10.0 → 9.2, 500 9.9 → 9.5 px.
+  - In-sample (all pairs) it reaches 6.6 px, with offsets pan +1.5°, lift −2.3°, elbow +1.2°, wrist flex +1.3°, wrist roll −4.2°. The side arm error is unchanged (2.5 px).
+- Decision: neither a fixed mount correction nor fixed joint offsets explains the wrist-view cube error across poses. The residual is a few mm that varies by pose, most likely servo backlash/flex (joint angles are read at the motor) plus 2–3 mm cube placement, which the wrist view magnifies to ~10 px close up. The scene stays unchanged; the mismatch is to be covered by randomisation (wrist camera pose ±5 mm / ±3°, plus small arm-pose render jitter relative to the cube).
+- Explained the randomised re-renderer to the user. Demos store the full `mj_state` per frame, so all 148 demos can be replayed and re-rendered with varied visuals, with actions unchanged. The prep list:
+  1. re-renderer with measured ranges (lights/shadows, arm brightness 0.7–1.05×, cube/table tint, wrist pose ±5 mm/±3°, side pose small, blur, noise, distractors; episode-wise plus frame-wise);
+  2. visual check against the real pairs;
+  3. render 148×4 and export to a LeRobot dataset;
+  4. Colab notebook (A100, LeRobot crop/colour augmentation);
+  5. train, then evaluate in sim and on the real arm.
+- Built the randomised re-renderer `sim/randomise_render.py`. It replays each demo's saved `mj_state` and re-renders both cameras with a random look; actions, state and motion are unchanged, and physics is never stepped. Each demo becomes `--copies` episodes. Extra lights and stray objects are added via MjSpec as visual-only (no collisions, same state size).
+  - **Per episode:**
+    - lighting: total 0.85–1.08 of today's, 45–80% ambient, 0–3 extra shadow-casting lights, light tint;
+    - materials: white PLA ×0.70–1.05, servos ×0.6–1.4, cube grey 0–0.10, table ×0.92–1.08, floor ×0.85–1.10, container alpha/tint, tape tint;
+    - cameras: side ±1 cm / ±1° / fovy ±1°, wrist ±5 mm / ±3°;
+    - 0–4 stray objects kept away from the cube, the container and the path between them (no black ones), plus a second black cube at one end of the container 15% of the time;
+    - image: uneven-illumination field ±12%, wrist vignetting, gain/gamma/white balance/saturation, blur (side ≤0.8 px, wrist ≤2.5 px), noise, JPEG 70–95 in 70% of episodes.
+  - **Per frame:** light strength ±3%, wrist camera ±0.5 mm / 0.3°, side 0.1°, gain ±1%, blur ±0.3 px.
+  - **Soft shadows:** MuJoCo only draws hard shadows. The first preview showed several hard-edged shadows, unlike the real room. Each frame is now drawn with and without shadows, and the shadow ratio is blurred (side 2–10 px, wrist 6–25 px) and weakened (×0.35–1) before being put back.
+  - Per-episode parameters and seeds go to `meta/randomisation.jsonl`. `--preview N` writes `sim/eval/dr_preview.png`, with real pair frames on top for comparison.
+  - **Tested:** one episode exported (490 frames) loads back in `LeRobotDataset` with the same features as `so101-cube`.
+  - **Cost:** 6.4 fps single process (4 renders per frame) → ~12.7 h for 148×4 on this Mac; ~13 MB per episode → ~7.7 GB total. Only 12 GB of disk is free, so sharding plus merging can't fit locally. Recommended rendering on Colab instead: inputs are only ~75 MB (demos 50 MB + scene 25 MB).
+- Colab pipeline for the randomised training:
+  - **Bundle:** `sim/colab/make_bundle.py` → `sim/colab/vla_bundle.zip` (66 MB: sim scripts, scene, calibration files, cube mesh, the 148 trimmed demos; git-ignored).
+  - **Notebook:** `sim/colab/train_dr_colab.ipynb`:
+    1. settings;
+    2. Drive mount and hardware check;
+    3. install LeRobot at the local/Iridis commit `b9cb121c` plus MuJoCo 3.16.0;
+    4. EGL headless rendering, bundle unpack, codec choice (H.264 if libx264 is present, else LeRobot auto);
+    5. preview;
+    6. render in parallel shards (CPUs − 1, up to 12), merge with `lerobot-edit-dataset`, keep the per-episode randomisation logs, save the dataset tar to Drive (restored in later sessions);
+    7. train SmolVLA with the Iridis settings (batch 64, rename_map camera1/camera2) plus LeRobot image augmentation, 30k steps, decay over 30k. Checkpoints every 2500 steps are copied to Drive, keeping 2; re-running the cell resumes;
+    8. eval on the 30 sim test poses, with results and videos copied to Drive.
+  - **Tested locally:**
+    - the bundle unpacked alone renders the preview;
+    - two 1-episode shards merge into a valid 2-episode / 918-frame dataset with the same CLI arguments;
+    - a 2-step `lerobot-train` with the notebook's exact arguments trains and saves `checkpoints/000002` with the `last` link the Drive sync expects.
+  - **Not tested:** Colab itself (EGL, install, A100 speed).
+  - Added a README section; git-ignored the bundle zip and the preview image.
+- First Colab run: EGL rendering works (`EGL render OK`; the EGL errors after it are harmless cleanup at process exit). Cell 4 then failed on `import av`: the install used only `lerobot[smolvla]`, but this LeRobot version keeps PyAV, `datasets` and torchcodec in the `dataset` extra. The notebook now installs `lerobot[smolvla,training]` (`training` includes `dataset`).
+
+## 2026-11-24
+
+**Summary:** The randomised SmolVLA run (`smolvla_cube_dr`) finished on a Colab A100: 30k steps in 8 h 12 min, final checkpoint saved to Drive. The sim eval cell first failed on two notebook bugs, both fixed: the kernel had lost cell 7's variables, and the eval command was missing the cube pose file. **Sim eval (30 test poses, unrandomised scene): 20/30 = 67% (95% CI 49-81%)**, down from 93% for the non-randomised run. Of the 10 failures, 9 picked the cube up but did not place it; 1 never picked it up. With a cube resting against a wall counted as inside, it is 22/30 = 73% (old run 29/30); most of the remaining failures are weak grasps. **Real arm: 7/30 = 23%** (zero-shot was 0%). Every failure is a missed grasp: the policy aims ~3 cm short of the cube, towards the base, and the elbow sag adds ~6 mm. When it does grasp, it places every time. Real runs with sim camera views show the **real side camera** causes the short aim (both views from sim: aim −8 to −16 mm). The rest is grasp alignment (wrist roll), seen in sim too. Next: record ~20–30 real demos and co-fine-tune on sim + real.
+
+- Colab training finished (30,000/30,000, exit code 0; checkpoint 030000 synced to Drive). Cell 8 (sim eval) failed with `NameError: CK`: the kernel had lost cell 7's variables. Cell 8 now sets its own paths and, if the session has no checkpoint, copies the newest one from Drive, so it runs after just cells 1, 2 and 4. Changed `sim/colab/train_dr_colab.ipynb` (and its generator).
+- Colab cell 8 then failed on `eval/test_poses.json`: without `--poses`, `eval_policy.py` defaults to the old eraser pose file. The cell now passes `--poses eval/cube_poses.json --split test`, which also selects the cube scene and training demos. Changed `sim/colab/train_dr_colab.ipynb`.
+- Sim eval of `smolvla_cube_dr` 030000: 20/30 = 67% (95% CI 49-81%) vs 28/30 = 93% for `smolvla_cube` 020000 on the same poses. Failures: 9 picked up but not placed, 1 never picked up; mean time to success 14.5 s. No region pattern (65-75% everywhere). Results and 5 videos are on Drive in `so101_vla/`.
+- The user saw a sim "failure" video that was really a success: the cube was resting against the container wall. The eval rule requires the cube centre at least 5 mm clear of a wall (`container_tol`), so a cube resting flush against a wall fails. New `sim/rescore_eval.py` re-scores a results JSON with a looser rule: the cube's footprint, at its final yaw, inside the inner walls (1 mm slack) and lying on the floor. Checked on the old run (`smolvla_cube` 020000): 28/30 -> 29/30. Pose 315 is against a wall; pose 508's cube was thrown out of the scene. This matches the earlier by-eye count.
+- Re-scored `smolvla_cube_dr` 030000 with `rescore_eval.py` (results JSON from Drive now in `sim/eval/results/smolvla_cube_dr_030000_test.json`): 20/30 = 67% -> **22/30 = 73%** with a cube against a wall counted (poses 302, 508). Old run: 28/30 -> 29/30. The 8 real failures:
+  - 1 physics ejection (310: cube thrown 2.7 m up);
+  - 2 lifted ~15 cm, then dropped ~6 cm short of the container (306, 314);
+  - 4 weak grasps: lifted only 3–6 cm, then slipped or pushed away (312, 316, 504, 509);
+  - 1 never picked up (307).
+
+  So the randomised model's sim loss is mostly in grasp security, not in finding the container.
+- Checkpoint `smolvla_cube_dr` 030000 downloaded to `sim/outputs/train/smolvla_cube_dr/030000/pretrained_model/` for the real-arm test.
+- **First real-arm run of the randomised model** (`run_policy_real.py ... --split test`, live, all real inputs): **7/30 = 23% (95% CI 12-41%)**, up from 0% zero-shot (the old model froze on real images). All 23 failures are "never grasped"; every episode that grasped the cube also placed it (7/7).
+  - New `sim/analyse_real_run.py` computes the gripper's closest low approach to the cube for a real run, from the measured joints and from the commanded actions, using forward kinematics in the sim.
+  - The gripper stops **short of the cube, towards the base**. Radial median in the failures: −35 mm measured, −29 mm commanded. The sideways error is small (+7 mm). The sim demos reach −5 mm (p10 −14).
+  - So most of the shortfall (~3 cm) comes from where the policy aims (perception). ~6 mm more is arm tracking: the elbow sits ~2° above its command under load.
+  - This matches the earlier zero-shot "stops ~2 cm short" and the wrist view's cube offset.
+- **Real run with a sim wrist view** (`--sim-wrist`, all 30 test poses): 2/30. The aim is still short: radial median −37 mm measured, −31 mm commanded (all-real run: −35 / −29).
+  - Replaying the commands on the sim twin with sim physics grasps only 2/30 too. So the miss is in where the policy aims, not a real-vs-sim arm geometry difference.
+  - The user saw the sim wrist view match the real one closely. So the real wrist image is ruled out as the cause of the short aim. By elimination the suspect is the real side camera, which matches the earlier camera-mix result.
+  - The wrist roll at the closest approach is ~15° below what the demos' fit predicts. The fit itself is noisy (residual std 33°), so this only weakly supports the user's "under-turned wrist" observation.
+- **Real run with sim views from both cameras** (`--sim-all`): 14 poses so far (the 6-pose subset plus 301–310), **real 5/14**. The real outcome matched the sim twin's outcome on every pose.
+  - The aim is close to the demos now: radial median −8 mm in the successes and −16 mm in the failures (commanded −9 / −10). The all-real and sim-wrist runs aimed at −35 / −37.
+  - So **the real side camera is what makes the policy aim ~3 cm short.**
+  - The remaining failures are grasp quality. The user sees the wrist under-rotated: the cube is gripped across non-parallel faces or corners, lifts, then turns in the jaws and falls.
+  - The twin lifted the cube (5–14 cm) in 6 of its 9 failures, so the same insecure grasp happens in sim physics too. This matches the sim eval, where weak grasps were the main failure (73% vs 97% for the non-randomised model).
+- Decision discussed: two separate problems remain. (1) The side-camera appearance gap shortens the aim on the real rig. (2) The randomised model's grasp (wrist roll alignment) is less precise than the old model's. Recommended next: record ~20–30 real demos with the leader arm at training poses and co-fine-tune on sim + real. Cheap aside: compensate the ~2° elbow sag in `run_policy_real.py`.
+- Committed and pushed all of the 2026-11-23/24 work to GitHub (`master`): the capture/gap/refit tools, the re-renderer, the Colab bundle maker and notebook, the real-run analysis and re-scoring scripts, and the results JSONs and summary images. Real-run videos and arrays stay git-ignored, as before. Also git-ignored `sim/colab/vla_bundle/` (the unpacked bundle used for local testing).

@@ -7,6 +7,7 @@ fixed start poses as the sim eval, so real and sim success rates compare directl
     python run_policy_real.py $CKPT --split test --mix         #    which camera's sim-to-real gap matters
     python run_policy_real.py $CKPT --split test --mix --filter both   # does filtering the real frames help?
     python run_policy_real.py $CKPT --split test --step --sim-wrist    # real side camera + sim-twin wrist view
+    python run_policy_real.py $CKPT --split test --sim-all             # vision removed: does the sim's motion work on the real cube?
     python run_policy_real.py $CKPT --split test --step        # 2. live, one 1.5 s chunk per SPACE
     python run_policy_real.py $CKPT --split test               # 3. live, continuous
 
@@ -30,6 +31,7 @@ live: SPACE starts the episode; the policy drives the follower at 33 Hz (the tra
     2      fail: grasped, but not placed in the container (dropped / missed)
     3      fail: other (stuck, collision, ...)
     x      abort: not counted, the same pose comes again (e.g. you had to intervene)
+    q      abort and quit (like Ctrl-C); the episode's video and joints are still saved
     SPACE  pause / resume (the arm holds where it is); after --max-seconds it pauses too
 
   Between poses:  SPACE start   n / b next / previous pose   q quit
@@ -62,7 +64,7 @@ import joint_units  # noqa: E402
 from cameras import Grabber  # noqa: E402
 from demo_io import CONTROL_SUBSTEPS, task_for  # noqa: E402
 from eval_policy import checkpoint_joint_units, load_policy, wilson_interval  # noqa: E402
-from pick_place_task import reset_to_ready, set_eraser_pose, task_object  # noqa: E402
+from pick_place_task import object_in_container, reset_to_ready, set_eraser_pose, task_object  # noqa: E402
 from wrist_lens import WristLens, orient_wrist  # noqa: E402
 
 FOLLOWER_PORT = "/dev/tty.usbmodem5B790809571"
@@ -382,6 +384,14 @@ def main():
     ap.add_argument("--sim-wrist", action="store_true",
                     help="live: feed the policy the wrist view of a sim twin (driven by the same commands, "
                          "cube physics included) instead of the real wrist camera; the side camera stays real")
+    ap.add_argument("--sim-all", action="store_true",
+                    help="live: the policy sees only the sim twin (both cameras and the arm state); the real arm "
+                         "executes the same commands on the real cube. Real vs twin outcome = how well the sim's "
+                         "physics and calibration match the real rig, with vision taken out")
+    ap.add_argument("--twin-pose", type=int, default=None, metavar="ID",
+                    help="--sim-wrist test: put the SIM cube (seen by the wrist view) on this pose id while the real "
+                         "cube goes on the outlined pose; where the arm goes shows which camera it follows "
+                         "(magenta outline = sim cube)")
     ap.add_argument("--filter", choices=("none", "colour", "denoise", "both"), default="none",
                     help="filter the real camera frames: denoise (bilateral) and/or colour-match to the sim "
                          "(LAB gain/offset fitted once per pose against the sim render of the same scene)")
@@ -414,10 +424,18 @@ def main():
     jmap = joint_units.JointMap.load()
     ready = jmap.sim_to_real(sim.ready_sim)
     period = 1.0 / sim.fps
+    twin_pose = None
+    if a.twin_pose is not None:
+        if not (a.sim_wrist or a.sim_all):
+            raise SystemExit("--twin-pose needs --sim-wrist or --sim-all")
+        twin_pose = next((q for q in pose_file["poses"] if q["id"] == a.twin_pose), None)
+        if twin_pose is None:
+            raise SystemExit(f"no pose with id {a.twin_pose} in {a.poses}")
 
     run_name = f"{ckpt.parent.parent.name}_{ckpt.parent.name}" if ckpt.name == "pretrained_model" else ckpt.name
     out = pathlib.Path(a.out) if a.out else HERE / "eval/real" / run_name
-    suffix = ("_mix" if a.mix else "_shadow" if a.shadow else "") + ("_simwrist" if a.sim_wrist and not a.mix else "") \
+    suffix = ("_mix" if a.mix else "_shadow" if a.shadow else "") + ("_simwrist" if a.sim_wrist and not a.mix else "") + ("_simall" if a.sim_all else "") \
+        + (f"_twin{a.twin_pose}" if a.twin_pose is not None else "") \
         + (f"_{a.filter}" if a.filter != "none" else "")
     if suffix:
         out = out.with_name(out.name + suffix)
@@ -497,13 +515,23 @@ def main():
                 continue
             # ---- live episode
             ep = episode(policy, cams, arm, sim, jmap, outline, tag, a.max_seconds, period, out, p, a.step,
-                         a.sim_wrist)
-            ep.update({"sim_wrist": a.sim_wrist, "filter": a.filter})
+                         a.sim_wrist, twin_pose, a.sim_all)
+            if "twin_success" in ep:
+                print(f"      twin (sim): {'success' if ep['twin_success'] else 'no success'}, "
+                      f"cube lifted up to {ep['twin_max_lift_mm']:.0f} mm")
+            ep.update({"sim_wrist": a.sim_wrist, "sim_all": a.sim_all, "filter": a.filter,
+                       "twin_pose_id": twin_pose["id"] if twin_pose else None})
             print(f"[{i + 1:3d}/{len(poses)}] id {p['id']}: {ep['outcome']}  ({ep['seconds']:.1f} s, "
                   f"{ep['overruns']} slow steps)")
-            results["episodes"] = [e for e in results["episodes"] if e["pose_id"] != p["id"]] + [ep]
+            stop = ep.pop("stop", False)
+            if ep["outcome"] == "abort":                       # kept apart: never replaces a real outcome
+                results.setdefault("aborted", []).append(ep)
+            else:
+                results["episodes"] = [e for e in results["episodes"] if e["pose_id"] != p["id"]] + [ep]
             results["updated"] = datetime.datetime.now().isoformat(timespec="seconds")
             res_path.write_text(json.dumps(results, indent=2))
+            if stop:
+                break
             arm.move_to(ready, ui=lambda: show([tag, "back to 'ready' ..."]) and key())
             if ep["outcome"] != "abort":
                 done.add(p["id"])
@@ -533,11 +561,17 @@ def main():
 
 
 def episode(policy, cams, arm, sim, jmap, outline, tag, max_seconds, period, out, p, step_mode=False,
-            sim_wrist=False):
+            sim_wrist=False, twin_pose=None, sim_all=False):
     policy.reset()
     pending = None
-    if sim_wrist:
-        sim.twin_reset(jmap.real_to_sim(arm.read()), (p["x"], p["y"], p["yaw_rad"]))
+    twin = sim_wrist or sim_all
+    twin_held = twin_best = 0
+    twin_lift = 0.0
+    if twin:
+        tp = twin_pose or p                                # --twin-pose: the sim cube elsewhere
+        sim.twin_reset(jmap.real_to_sim(arm.read()), (tp["x"], tp["y"], tp["yaw_rad"]))
+        if twin_pose is not None:
+            outline = outline + [(q, (255, 0, 255)) for q in sim.cube_outline(tp["x"], tp["y"], tp["yaw_rad"])]
     vid_path = out / f"pose{p['id']:04d}.mp4"
     writer = None
     states, actions, sent, times = [], [], [], []
@@ -545,64 +579,89 @@ def episode(policy, cams, arm, sim, jmap, outline, tag, max_seconds, period, out
     t0 = time.perf_counter()
     next_t = t0
     path = np.zeros((0, 3))
-    while outcome is None:
-        state = arm.read()
-        imgs = cams.read()
-        if sim_wrist:
-            imgs["wrist_cam"] = sim.twin_wrist()
-        elapsed = time.perf_counter() - t0
-        if not paused and pending is None:
-            act = policy.step(state, imgs)
-            if policy.just_planned():                          # draw each new chunk's gripper path
-                path = sim.gripper_path(jmap.real_to_sim(np.vstack([act, policy.queued()])))
-                if step_mode:                                  # show the plan, wait for SPACE
-                    pending, paused = act, True
-        elif not paused:
-            act, pending = pending, None                       # the plan shown before SPACE
-        if not paused:
-            sent.append(arm.command(act, state))
-            if sim_wrist:
-                sim.twin_step(jmap.real_to_sim(sent[-1]))
-            states.append(state)
-            actions.append(act)
-            times.append(elapsed)
-            if writer is None:
-                h, w = imgs["ext_cam"].shape[0], imgs["ext_cam"].shape[1] + round(imgs["wrist_cam"].shape[1] * H / imgs["wrist_cam"].shape[0])
-                writer = cv2.VideoWriter(str(vid_path), cv2.VideoWriter_fourcc(*"mp4v"), 1 / period, (w, h))
-            writer.write(compose(imgs))
-            if len(times) * period > max_seconds:              # time actually run, not paused
-                paused = True
-        else:
-            arm.command(state, state)                          # hold where it is
-        if paused and pending is not None:
-            status = "STEP: red = next 1.5 s plan.  SPACE run it   s/1/2/3 outcome   x abort"
-        elif paused:
-            status = "PAUSED: s success  1 not grasped  2 not placed  3 other  x abort  SPACE resume"
-        else:
-            status = "running: SPACE pause   s/1/2/3 outcome   x abort"
-        cv2.imshow(WIN, compose(imgs, [tag, f"{elapsed:5.1f} s", status],
-                                paths=[(path, (0, 0, 255))], polys=outline, sim=sim))
-        k = key()
-        if k == " ":
-            paused = not paused
-        elif k in OUTCOMES:
-            outcome = OUTCOMES[k]
-        elif k == "x":
-            outcome = "abort"
-        next_t += period
-        now = time.perf_counter()
-        if now < next_t:
-            time.sleep(next_t - now)
-        else:
-            overruns += now - next_t > period / 2
-            next_t = now                                       # don't try to catch up
+    stop = False
+    try:
+        while outcome is None:
+            state = arm.read()
+            real_imgs = cams.read()
+            imgs = dict(real_imgs)
+            if twin:
+                imgs["wrist_cam"] = sim.twin_wrist()
+            if sim_all:                                            # the policy sees only the twin
+                imgs["ext_cam"] = sim._render(sim.t, "ext_cam")
+            pol_state = jmap.sim_to_real(sim.t.qpos[:6]).astype(np.float32) if sim_all else state
+            elapsed = time.perf_counter() - t0
+            if not paused and pending is None:
+                act = policy.step(pol_state, imgs)
+                if policy.just_planned():                          # draw each new chunk's gripper path
+                    path = sim.gripper_path(jmap.real_to_sim(np.vstack([act, policy.queued()])))
+                    if step_mode:                                  # show the plan, wait for SPACE
+                        pending, paused = act, True
+            elif not paused:
+                act, pending = pending, None                       # the plan shown before SPACE
+            if not paused:
+                sent.append(arm.command(act, state))
+                if twin:
+                    sim.twin_step(jmap.real_to_sim(sent[-1]))
+                    twin_held = twin_held + 1 if object_in_container(sim.m, sim.t, sim.obj) else 0
+                    twin_best = max(twin_best, twin_held)
+                    twin_lift = max(twin_lift, float(sim.t.xpos[sim.m.body(sim.obj).id][2]) - sim.half)
+                states.append(state)
+                actions.append(act)
+                times.append(elapsed)
+                frame = compose(imgs)
+                if sim_all:                                        # + the real side camera, for comparison
+                    frame = np.hstack([frame, cv2.cvtColor(real_imgs["ext_cam"], cv2.COLOR_RGB2BGR)])
+                if writer is None:
+                    writer = cv2.VideoWriter(str(vid_path), cv2.VideoWriter_fourcc(*"mp4v"), 1 / period,
+                                             (frame.shape[1], frame.shape[0]))
+                writer.write(frame)
+                if len(times) * period > max_seconds:              # time actually run, not paused
+                    paused = True
+            else:
+                arm.command(state, state)                          # hold where it is
+            if paused and pending is not None:
+                status = "STEP: red = next 1.5 s plan.  SPACE run it   s/1/2/3 outcome   x abort"
+            elif paused:
+                status = "PAUSED: s success  1 not grasped  2 not placed  3 other  x abort  SPACE resume"
+            else:
+                status = "running: SPACE pause   s/1/2/3 outcome   x abort"
+            disp = compose(imgs, [tag, f"{elapsed:5.1f} s", status] +
+                           ([f"twin: cube lifted {twin_lift * 1000:.0f} mm" + (", IN CONTAINER" if twin_held else "")]
+                            if twin else []),
+                           paths=[(path, (0, 0, 255))], polys=outline, sim=sim)
+            if sim_all:
+                rs = cv2.cvtColor(real_imgs["ext_cam"], cv2.COLOR_RGB2BGR)
+                for poly, col in outline:
+                    cv2.polylines(rs, [np.round(poly).astype(np.int32)], True, col, 1, cv2.LINE_AA)
+                cv2.putText(rs, "REAL side camera (not used by the policy)", (8, 22),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 255), 1, cv2.LINE_AA)
+                disp = np.hstack([disp, rs])
+            cv2.imshow(WIN, disp)
+            k = key()
+            if k == " ":
+                paused = not paused
+            elif k in OUTCOMES:
+                outcome = OUTCOMES[k]
+            elif k in ("x", "q"):                             # q: abort, save, then quit
+                outcome, stop = "abort", k == "q"
+            next_t += period
+            now = time.perf_counter()
+            if now < next_t:
+                time.sleep(next_t - now)
+            else:
+                overruns += now - next_t > period / 2
+                next_t = now                                       # don't try to catch up
+    except KeyboardInterrupt:                                 # Ctrl-C: keep what was recorded
+        outcome, stop = "abort", True
     if writer is not None:
         writer.release()
     np.savez_compressed(out / f"pose{p['id']:04d}.npz", t=np.array(times), state=np.array(states),
                         action=np.array(actions), sent=np.array(sent))
     return {"pose_id": p["id"], "x": p["x"], "y": p["y"], "yaw_deg": p["yaw_deg"], "outcome": outcome,
             "seconds": round(times[-1] if times else 0.0, 2), "steps": len(times), "overruns": int(overruns),
-            "video": vid_path.name, "time": datetime.datetime.now().isoformat(timespec="seconds")}
+            "video": vid_path.name, "time": datetime.datetime.now().isoformat(timespec="seconds"), "stop": stop,
+            **({"twin_success": bool(twin_best >= 10), "twin_max_lift_mm": round(twin_lift * 1000, 1)} if twin else {})}
 
 
 MIX = [("A", "real side + real wrist", ("real", "real"), (0, 0, 255)),

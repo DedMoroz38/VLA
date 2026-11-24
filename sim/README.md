@@ -252,6 +252,19 @@ sim's 30 ms step). The episode starts from the cube scene's 'ready' keyframe (th
 rest pose with small margins). `calib/live_overlay.py --cam wrist` still shows the raw,
 unrotated wrist image (it is a calibration tool).
 
+## Randomised re-render and Colab training (2026-11-23)
+
+- `randomise_render.py` replays the demos' saved states and re-renders both cameras with a random look:
+  - lighting, with soft shadows composited from a with/without-shadow pair;
+  - materials;
+  - camera pose jitter;
+  - visual-only stray objects;
+  - blur, noise and JPEG compression.
+
+  Actions and motion are unchanged. The ranges come from the measured real/sim gap (`calib/measure_gap.py`). `--preview N` writes `eval/dr_preview.png`; without it the script writes a LeRobot dataset of `--copies` episodes per demo, with each episode's random settings in `meta/randomisation.jsonl`.
+- `colab/make_bundle.py` packs the scripts, scene, calibration and demos into `colab/vla_bundle.zip` (~66 MB).
+- `colab/train_dr_colab.ipynb` runs on Colab (A100). It renders the dataset in parallel shards, merges them, saves a tar to Drive, then trains SmolVLA with checkpoints synced to Drive (resumable) and evaluates on the 30 sim test poses.
+
 ## Joint units (sim <-> real)
 
 `export_lerobot.py` writes `observation.state` and `action` in the **real

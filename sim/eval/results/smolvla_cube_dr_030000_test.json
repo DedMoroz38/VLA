@@ -1,0 +1,677 @@
+{
+  "checkpoint": "/content/outputs/train/smolvla_cube_dr/checkpoints/last/pretrained_model",
+  "poses": "eval/cube_poses.json [test]",
+  "shard": null,
+  "episodes": 30,
+  "successes": 20,
+  "success_rate": 0.6666666666666666,
+  "ci95": [
+    0.48779725813830266,
+    0.807697044731538
+  ],
+  "max_steps": 1500,
+  "n_action_steps": 50,
+  "temporal_ensemble_coeff": null,
+  "results": [
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 390,
+      "sim_s": 11.700000000000001,
+      "wall_s": 8.039994364999984,
+      "max_eraser_z": 0.13699793029229435,
+      "final_eraser_pose": [
+        0.18449751906759213,
+        -0.21847936404019713,
+        -0.5916219703531761
+      ],
+      "final_eraser_z": 0.021993334594088948,
+      "episode": 0,
+      "pose_id": 300,
+      "eraser_start": {
+        "x": 0.2510411039184175,
+        "y": 0.1267054923577832,
+        "yaw_deg": 21.959441148378957
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 1231,
+      "sim_s": 36.93,
+      "wall_s": 22.757441631000006,
+      "max_eraser_z": 0.12889744755484644,
+      "final_eraser_pose": [
+        0.19567557315234896,
+        -0.2451367367744632,
+        0.9926049292965142
+      ],
+      "final_eraser_z": 0.02198940589769907,
+      "episode": 1,
+      "pose_id": 301,
+      "eraser_start": {
+        "x": 0.2322911039184175,
+        "y": 0.10942154174049927,
+        "yaw_deg": 26.279441148378968
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "picked up, not placed in container",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 27.08598934300005,
+      "max_eraser_z": 0.1400474046209256,
+      "final_eraser_pose": [
+        0.23018757195746065,
+        -0.18334510791275982,
+        -1.6755565946361977
+      ],
+      "final_eraser_z": 0.02199313483890446,
+      "episode": 2,
+      "pose_id": 302,
+      "eraser_start": {
+        "x": 0.2072911039184175,
+        "y": 0.15386598618494374,
+        "yaw_deg": -42.12055885162104
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 418,
+      "sim_s": 12.540000000000001,
+      "wall_s": 7.872234316000004,
+      "max_eraser_z": 0.14628550885248137,
+      "final_eraser_pose": [
+        0.17649975760124875,
+        -0.2281815800897819,
+        -1.2705426690730746
+      ],
+      "final_eraser_z": 0.021993337546250602,
+      "episode": 3,
+      "pose_id": 303,
+      "eraser_start": {
+        "x": 0.1619786039184175,
+        "y": 0.12053265285161038,
+        "yaw_deg": -6.1205588516210465
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 461,
+      "sim_s": 13.83,
+      "wall_s": 8.72870247100002,
+      "max_eraser_z": 0.14083729370188286,
+      "final_eraser_pose": [
+        0.20952523282874708,
+        -0.2575839900565928,
+        2.1190191865496395
+      ],
+      "final_eraser_z": 0.021992938575202778,
+      "episode": 4,
+      "pose_id": 304,
+      "eraser_start": {
+        "x": 0.2119786039184175,
+        "y": 0.1649770972960548,
+        "yaw_deg": 11.879441148378973
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 480,
+      "sim_s": 14.4,
+      "wall_s": 8.501205372000072,
+      "max_eraser_z": 0.16080997841126074,
+      "final_eraser_pose": [
+        0.21423787205286485,
+        -0.2359939456807754,
+        0.8372851203878202
+      ],
+      "final_eraser_z": 0.021993335278692617,
+      "episode": 5,
+      "pose_id": 305,
+      "eraser_start": {
+        "x": 0.1869786039184175,
+        "y": 0.09831043062938817,
+        "yaw_deg": 29.879441148378973
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "picked up, not placed in container",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 25.910221276000016,
+      "max_eraser_z": 0.1547345613582021,
+      "final_eraser_pose": [
+        0.27757632917286607,
+        -0.10592580421289816,
+        1.18103805347651
+      ],
+      "final_eraser_z": 0.019986678011449793,
+      "episode": 6,
+      "pose_id": 306,
+      "eraser_start": {
+        "x": 0.19010360391841752,
+        "y": 0.12794006025901777,
+        "yaw_deg": 44.99944114837896
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "never picked up",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 26.402298312000084,
+      "max_eraser_z": 0.03454856521289011,
+      "final_eraser_pose": [
+        0.1524845070387535,
+        0.1142901176711879,
+        -1.2433768438732165
+      ],
+      "final_eraser_z": 0.03253032189076607,
+      "episode": 7,
+      "pose_id": 307,
+      "eraser_start": {
+        "x": 0.2276036039184175,
+        "y": 0.1390511713701289,
+        "yaw_deg": 8.999441148378967
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 389,
+      "sim_s": 11.67,
+      "wall_s": 6.947159160000069,
+      "max_eraser_z": 0.13638982509416359,
+      "final_eraser_pose": [
+        0.2283962726547945,
+        -0.24111225134961117,
+        -0.9249607186644989
+      ],
+      "final_eraser_z": 0.02199050450415282,
+      "episode": 8,
+      "pose_id": 308,
+      "eraser_start": {
+        "x": 0.2338536039184175,
+        "y": 0.09954499853062272,
+        "yaw_deg": -19.800558851621037
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 477,
+      "sim_s": 14.31,
+      "wall_s": 8.661676487000022,
+      "max_eraser_z": 0.12623002462619567,
+      "final_eraser_pose": [
+        0.2150871111532561,
+        -0.19795727699260124,
+        -0.4773628746808272
+      ],
+      "final_eraser_z": 0.021993333302318275,
+      "episode": 9,
+      "pose_id": 309,
+      "eraser_start": {
+        "x": 0.18619735391841752,
+        "y": 0.158804257789882,
+        "yaw_deg": -16.200558851621036
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "picked up, not placed in container",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 26.17064682399996,
+      "max_eraser_z": 2.723096350510615,
+      "final_eraser_pose": [
+        -2.867639434843048,
+        2.0239043753277772,
+        -2.3009105702407453
+      ],
+      "final_eraser_z": -0.7001132810833566,
+      "episode": 10,
+      "pose_id": 310,
+      "eraser_start": {
+        "x": 0.2361973539184175,
+        "y": 0.09213759112321533,
+        "yaw_deg": 1.799441148378963
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 571,
+      "sim_s": 17.13,
+      "wall_s": 10.47795500799998,
+      "max_eraser_z": 0.137485042291314,
+      "final_eraser_pose": [
+        0.20094075841717593,
+        -0.20121627687886368,
+        -1.282748750072992
+      ],
+      "final_eraser_z": 0.02199333630224275,
+      "episode": 11,
+      "pose_id": 311,
+      "eraser_start": {
+        "x": 0.2236973539184175,
+        "y": 0.1699153689009931,
+        "yaw_deg": 37.799441148378975
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "picked up, not placed in container",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 26.06727017000003,
+      "max_eraser_z": 0.05363222297118339,
+      "final_eraser_pose": [
+        0.19021603053179853,
+        0.17916187758150273,
+        -0.7012840650312672
+      ],
+      "final_eraser_z": 0.02118384955440194,
+      "episode": 12,
+      "pose_id": 312,
+      "eraser_start": {
+        "x": 0.1643223539184175,
+        "y": 0.14028573927136345,
+        "yaw_deg": -40.680558851621036
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 459,
+      "sim_s": 13.77,
+      "wall_s": 8.40212783000004,
+      "max_eraser_z": 0.13070998242627152,
+      "final_eraser_pose": [
+        0.21153412950485564,
+        -0.207945818526268,
+        0.16246435189173045
+      ],
+      "final_eraser_z": 0.021993336166268942,
+      "episode": 13,
+      "pose_id": 313,
+      "eraser_start": {
+        "x": 0.2143223539184175,
+        "y": 0.1419318298063429,
+        "yaw_deg": -22.68055885162104
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "picked up, not placed in container",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 25.932847030999937,
+      "max_eraser_z": 0.13896224187830772,
+      "final_eraser_pose": [
+        0.26553556270743667,
+        -0.09448670323531579,
+        5.380886809665601
+      ],
+      "final_eraser_z": 0.01998667663045856,
+      "episode": 14,
+      "pose_id": 314,
+      "eraser_start": {
+        "x": 0.1768223539184175,
+        "y": 0.15304294091745402,
+        "yaw_deg": 31.31944114837897
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 550,
+      "sim_s": 16.5,
+      "wall_s": 9.652287042000012,
+      "max_eraser_z": 0.1429240522349595,
+      "final_eraser_pose": [
+        0.24626359587392524,
+        -0.2053120387901121,
+        0.4695272284108737
+      ],
+      "final_eraser_z": 0.02199072615538319,
+      "episode": 15,
+      "pose_id": 315,
+      "eraser_start": {
+        "x": 0.2205723539184175,
+        "y": 0.13082071869523176,
+        "yaw_deg": 34.91944114837898
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "picked up, not placed in container",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 26.160526474999983,
+      "max_eraser_z": 0.07710154965904734,
+      "final_eraser_pose": [
+        0.18105816252774656,
+        0.2349353010748306,
+        -1.9604250745144416
+      ],
+      "final_eraser_z": 0.019983651946682005,
+      "episode": 16,
+      "pose_id": 316,
+      "eraser_start": {
+        "x": 0.2377598539184175,
+        "y": 0.1493392372137503,
+        "yaw_deg": 42.119441148378975
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 419,
+      "sim_s": 12.57,
+      "wall_s": 7.545835111999963,
+      "max_eraser_z": 0.16514586876157944,
+      "final_eraser_pose": [
+        0.24645442555781613,
+        -0.21919813855406986,
+        -0.875451335317873
+      ],
+      "final_eraser_z": 0.021993336126952694,
+      "episode": 17,
+      "pose_id": 317,
+      "eraser_start": {
+        "x": 0.1690098539184175,
+        "y": 0.12711701499152805,
+        "yaw_deg": 28.43944114837896
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 450,
+      "sim_s": 13.5,
+      "wall_s": 7.965231213000038,
+      "max_eraser_z": 0.14246948371078333,
+      "final_eraser_pose": [
+        0.17798084481376894,
+        -0.21797346294168113,
+        -0.057915393117208766
+      ],
+      "final_eraser_z": 0.021989832577737813,
+      "episode": 18,
+      "pose_id": 318,
+      "eraser_start": {
+        "x": 0.2065098539184175,
+        "y": 0.10983306437424412,
+        "yaw_deg": -36.36055885162103
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 448,
+      "sim_s": 13.44,
+      "wall_s": 8.188952352000001,
+      "max_eraser_z": 0.16076092749130094,
+      "final_eraser_pose": [
+        0.17303952843807816,
+        -0.2555907372646343,
+        -1.8813210927504977
+      ],
+      "final_eraser_z": 0.021992854066982925,
+      "episode": 19,
+      "pose_id": 319,
+      "eraser_start": {
+        "x": 0.1658848539184175,
+        "y": 0.0876108421520219,
+        "yaw_deg": -0.36055885162104256
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 450,
+      "sim_s": 13.5,
+      "wall_s": 8.100635113000067,
+      "max_eraser_z": 0.15297803260192436,
+      "final_eraser_pose": [
+        0.20740749197729302,
+        -0.21012655127714117,
+        -1.4399915475770948
+      ],
+      "final_eraser_z": 0.021990872337506854,
+      "episode": 20,
+      "pose_id": 500,
+      "eraser_start": {
+        "x": 0.2674022573906786,
+        "y": 0.18520480377261134,
+        "yaw_deg": -14.958830569091678
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 420,
+      "sim_s": 12.6,
+      "wall_s": 7.793547892999982,
+      "max_eraser_z": 0.13407415871622436,
+      "final_eraser_pose": [
+        0.22972477069704444,
+        -0.19275740781131837,
+        -0.17072598645911616
+      ],
+      "final_eraser_z": 0.021993330085343984,
+      "episode": 21,
+      "pose_id": 501,
+      "eraser_start": {
+        "x": 0.3053710073906786,
+        "y": 0.17285912476026566,
+        "yaw_deg": -25.758830569091682
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 356,
+      "sim_s": 10.68,
+      "wall_s": 6.687656047000019,
+      "max_eraser_z": 0.13422672041534534,
+      "final_eraser_pose": [
+        0.20922686646283012,
+        -0.21751725688803186,
+        -0.15053905200544015
+      ],
+      "final_eraser_z": 0.02199333600680694,
+      "episode": 22,
+      "pose_id": 502,
+      "eraser_start": {
+        "x": 0.27162100739067857,
+        "y": 0.13582208772322862,
+        "yaw_deg": 28.241169430908318
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 381,
+      "sim_s": 11.43,
+      "wall_s": 6.892770058999986,
+      "max_eraser_z": 0.156461680099842,
+      "final_eraser_pose": [
+        0.18956932437134155,
+        -0.25669877635350563,
+        -1.3322760243045346
+      ],
+      "final_eraser_z": 0.0219911809729714,
+      "episode": 23,
+      "pose_id": 503,
+      "eraser_start": {
+        "x": 0.24349600739067853,
+        "y": 0.09137764327878416,
+        "yaw_deg": -22.15883056909168
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "picked up, not placed in container",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 25.869210995999993,
+      "max_eraser_z": 0.055412211275075764,
+      "final_eraser_pose": [
+        0.6150506047099584,
+        0.0020314967257410088,
+        1.3680717006242673
+      ],
+      "final_eraser_z": 0.019986675760535897,
+      "episode": 24,
+      "pose_id": 504,
+      "eraser_start": {
+        "x": 0.32224600739067855,
+        "y": 0.14322949513063607,
+        "yaw_deg": 17.44116943090833
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 524,
+      "sim_s": 15.72,
+      "wall_s": 9.306454096999914,
+      "max_eraser_z": 0.13907525541318205,
+      "final_eraser_pose": [
+        0.24959781457769983,
+        -0.19027640106310623,
+        0.435323709958537
+      ],
+      "final_eraser_z": 0.02918474527044636,
+      "episode": 25,
+      "pose_id": 505,
+      "eraser_start": {
+        "x": 0.24068350739067854,
+        "y": 0.032118384019524895,
+        "yaw_deg": 35.44116943090833
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 461,
+      "sim_s": 13.83,
+      "wall_s": 8.28884803699998,
+      "max_eraser_z": 0.12677589461053448,
+      "final_eraser_pose": [
+        0.21834635459509932,
+        -0.1934826153817278,
+        -0.4635896780542166
+      ],
+      "final_eraser_z": 0.021993312223269598,
+      "episode": 26,
+      "pose_id": 506,
+      "eraser_start": {
+        "x": 0.31943350739067855,
+        "y": 0.06421714945162367,
+        "yaw_deg": -28.63883056909168
+      },
+      "nearest_training": null
+    },
+    {
+      "success": true,
+      "outcome": "success",
+      "steps": 348,
+      "sim_s": 10.44,
+      "wall_s": 6.161407943000086,
+      "max_eraser_z": 0.13615764747390763,
+      "final_eraser_pose": [
+        0.2534157583114145,
+        -0.22665119637448922,
+        -0.735460071975288
+      ],
+      "final_eraser_z": 0.021990448504332384,
+      "episode": 27,
+      "pose_id": 507,
+      "eraser_start": {
+        "x": 0.29130850739067854,
+        "y": 0.01977270500717925,
+        "yaw_deg": 7.361169430908327
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "picked up, not placed in container",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 25.964311738999868,
+      "max_eraser_z": 0.11872718704974758,
+      "final_eraser_pose": [
+        0.1963025590968082,
+        -0.18481457236715224,
+        3.1554735872275153
+      ],
+      "final_eraser_z": 0.021992848256520748,
+      "episode": 28,
+      "pose_id": 508,
+      "eraser_start": {
+        "x": 0.32505850739067854,
+        "y": 0.004957890192364412,
+        "yaw_deg": 28.961169430908324
+      },
+      "nearest_training": null
+    },
+    {
+      "success": false,
+      "outcome": "picked up, not placed in container",
+      "steps": 1500,
+      "sim_s": 45.0,
+      "wall_s": 26.083955766999907,
+      "max_eraser_z": 0.049809722833770054,
+      "final_eraser_pose": [
+        0.42198689570681414,
+        0.35518811173832826,
+        3.96894625497589
+      ],
+      "final_eraser_z": 0.019986678744560723,
+      "episode": 29,
+      "pose_id": 509,
+      "eraser_start": {
+        "x": 0.2877928823906786,
+        "y": 0.0790319642664385,
+        "yaw_deg": 36.16116943090834
+      },
+      "nearest_training": null
+    }
+  ]
+}

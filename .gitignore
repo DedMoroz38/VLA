@@ -36,3 +36,9 @@ sim/calib/floor/*_valid.npy
 # The Menagerie clone's own git data, moved aside so the SO-101 folder can be tracked here
 # (move it back to sim/mujoco_menagerie/.git to update the clone)
 sim/mujoco_menagerie.upstream-git/
+
+# Real/sim image pairs from calib/capture_pairs.py (lossless PNGs, ~150 MB per session)
+sim/calib/pairs/
+sim/colab/vla_bundle.zip
+sim/colab/vla_bundle/
+sim/eval/dr_preview.png

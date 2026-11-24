@@ -1,0 +1,1745 @@
+{
+  "demos": [
+    {
+      "file": "teleop_000.npz",
+      "frame": 364,
+      "side_mm": 3.091420119253986,
+      "height_mm": 15.931580306020079,
+      "tilt_deg": 5.812072481375504,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_001.npz",
+      "frame": 305,
+      "side_mm": -2.0492509004184964,
+      "height_mm": 6.938106295092554,
+      "tilt_deg": 21.7097456737581,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_002.npz",
+      "frame": 410,
+      "side_mm": 3.2773893276356874,
+      "height_mm": 10.195521831015329,
+      "tilt_deg": 15.140919748889214,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_003.npz",
+      "frame": 259,
+      "side_mm": 10.00092316945801,
+      "height_mm": 10.998007475966196,
+      "tilt_deg": 8.264733309711554,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 10,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_004.npz",
+      "frame": 284,
+      "side_mm": -12.96816414832469,
+      "height_mm": 11.457383262814352,
+      "tilt_deg": 16.12220732167736,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_005.npz",
+      "frame": 353,
+      "side_mm": -10.42586389757301,
+      "height_mm": 2.972855908774208,
+      "tilt_deg": 25.173038128105528,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_006.npz",
+      "frame": 375,
+      "side_mm": 8.903049153645796,
+      "height_mm": 9.225598989042183,
+      "tilt_deg": 18.581172889549524,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_007.npz",
+      "frame": 338,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_008.npz",
+      "frame": 321,
+      "side_mm": -7.051864192157678,
+      "height_mm": 3.370010432165114,
+      "tilt_deg": 6.398807663193822,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_009.npz",
+      "frame": 413,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_010.npz",
+      "frame": 312,
+      "side_mm": -7.972156915669011,
+      "height_mm": 13.68611519137125,
+      "tilt_deg": 2.6904423035658187,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_011.npz",
+      "frame": 342,
+      "side_mm": 9.05808155865303,
+      "height_mm": 11.594437740970537,
+      "tilt_deg": 2.03123815470866,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 10,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_012.npz",
+      "frame": 335,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_013.npz",
+      "frame": 249,
+      "side_mm": 1.9248339442917928,
+      "height_mm": 12.240133715113862,
+      "tilt_deg": 2.520083621541657,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_014.npz",
+      "frame": 482,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_015.npz",
+      "frame": 430,
+      "side_mm": -1.1764918164567966,
+      "height_mm": 5.1065411513705925,
+      "tilt_deg": 12.617779040824203,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 6
+      }
+    },
+    {
+      "file": "teleop_016.npz",
+      "frame": 401,
+      "side_mm": -15.598714104993885,
+      "height_mm": 6.385611963188971,
+      "tilt_deg": 3.0492875265425172,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 7,
+        "moving": 10
+      }
+    },
+    {
+      "file": "teleop_017.npz",
+      "frame": 387,
+      "side_mm": 7.581882451924337,
+      "height_mm": 12.257514761417829,
+      "tilt_deg": 17.38951913491024,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_018.npz",
+      "frame": 418,
+      "side_mm": -14.677769365972997,
+      "height_mm": 11.649766405015638,
+      "tilt_deg": 12.684532998797025,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 10,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_019.npz",
+      "frame": 462,
+      "side_mm": -7.06183226507872,
+      "height_mm": 9.050546621982237,
+      "tilt_deg": 20.531116405677786,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_020.npz",
+      "frame": 530,
+      "side_mm": -2.006188458749031,
+      "height_mm": 12.762069076049485,
+      "tilt_deg": 19.421716323611406,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_021.npz",
+      "frame": 521,
+      "side_mm": 14.522219258295495,
+      "height_mm": 3.585225522515349,
+      "tilt_deg": 10.925431463623633,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_022.npz",
+      "frame": 285,
+      "side_mm": -2.2280203494094573,
+      "height_mm": 6.024281110156426,
+      "tilt_deg": 8.375240606226395,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 6
+      }
+    },
+    {
+      "file": "teleop_023.npz",
+      "frame": 364,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_024.npz",
+      "frame": 427,
+      "side_mm": 2.1397520854607337,
+      "height_mm": 14.42122927122383,
+      "tilt_deg": 2.3153390377867087,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_025.npz",
+      "frame": 475,
+      "side_mm": -10.613007776606016,
+      "height_mm": 9.667191211483747,
+      "tilt_deg": 14.744659052334054,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_026.npz",
+      "frame": 411,
+      "side_mm": -3.0689013311424387,
+      "height_mm": 9.172421402976878,
+      "tilt_deg": 0.6136733438873669,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_027.npz",
+      "frame": 378,
+      "side_mm": -5.575062297100726,
+      "height_mm": 9.988406662245378,
+      "tilt_deg": 6.881036183899856,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_028.npz",
+      "frame": 549,
+      "side_mm": -0.68155085746769,
+      "height_mm": 11.330981721459047,
+      "tilt_deg": 11.966711709444988,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_029.npz",
+      "frame": 345,
+      "side_mm": -3.2440983388312996,
+      "height_mm": 5.744559273533253,
+      "tilt_deg": 7.1996736212639805,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_030.npz",
+      "frame": 537,
+      "side_mm": 12.591014848791833,
+      "height_mm": 0.7487172637875832,
+      "tilt_deg": 7.377612056855597,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_031.npz",
+      "frame": 396,
+      "side_mm": -0.34636389368167675,
+      "height_mm": 7.019136797165913,
+      "tilt_deg": 9.348712437888478,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_032.npz",
+      "frame": 239,
+      "side_mm": 3.4245137386368927,
+      "height_mm": 7.029775079400323,
+      "tilt_deg": 17.713123935121537,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_033.npz",
+      "frame": 491,
+      "side_mm": 13.5531483737431,
+      "height_mm": 4.740578606762693,
+      "tilt_deg": 15.626480321570163,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 6
+      }
+    },
+    {
+      "file": "teleop_034.npz",
+      "frame": 256,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_035.npz",
+      "frame": 303,
+      "side_mm": -8.474751352585825,
+      "height_mm": 12.486755608138166,
+      "tilt_deg": 19.77704419438239,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_036.npz",
+      "frame": 303,
+      "side_mm": -6.885420517865169,
+      "height_mm": 2.3569728849951037,
+      "tilt_deg": 6.721464204922545,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 7
+      }
+    },
+    {
+      "file": "teleop_037.npz",
+      "frame": 516,
+      "side_mm": -11.071000114251735,
+      "height_mm": 10.596925818262406,
+      "tilt_deg": 20.210978366131087,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_038.npz",
+      "frame": 518,
+      "side_mm": -9.967652088457623,
+      "height_mm": 13.535383465135345,
+      "tilt_deg": 26.369468307887534,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_039.npz",
+      "frame": 268,
+      "side_mm": -4.124662615510679,
+      "height_mm": 11.002261694820051,
+      "tilt_deg": 19.7644572508841,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_040.npz",
+      "frame": 349,
+      "side_mm": -3.84730985651477,
+      "height_mm": 8.529125824460161,
+      "tilt_deg": 5.391972102189212,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_041.npz",
+      "frame": 253,
+      "side_mm": -12.388231847695552,
+      "height_mm": 9.107499288641577,
+      "tilt_deg": 11.556988852628061,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_042.npz",
+      "frame": 364,
+      "side_mm": 3.0692434281211387,
+      "height_mm": 2.308228366297043,
+      "tilt_deg": 6.338958260181535,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_043.npz",
+      "frame": 366,
+      "side_mm": -13.535587746776129,
+      "height_mm": 5.989875532916704,
+      "tilt_deg": 6.4044002676903595,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_044.npz",
+      "frame": 299,
+      "side_mm": -5.873043180635313,
+      "height_mm": 9.497060690788862,
+      "tilt_deg": 15.678315550073826,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 6
+      }
+    },
+    {
+      "file": "teleop_045.npz",
+      "frame": 445,
+      "side_mm": -14.924459481654491,
+      "height_mm": 11.24577390844247,
+      "tilt_deg": 4.555710479707372,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_046.npz",
+      "frame": 385,
+      "side_mm": -2.5626982228406456,
+      "height_mm": 5.279914480684845,
+      "tilt_deg": 15.355864291685476,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_047.npz",
+      "frame": 343,
+      "side_mm": -7.127742183792411,
+      "height_mm": 12.63966755043129,
+      "tilt_deg": 5.16156759369868,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_048.npz",
+      "frame": 455,
+      "side_mm": 2.021135568012937,
+      "height_mm": 7.007964897243056,
+      "tilt_deg": 23.55099075200939,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_049.npz",
+      "frame": 308,
+      "side_mm": -6.559052377834914,
+      "height_mm": 6.190866317695095,
+      "tilt_deg": 14.913771575164576,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_050.npz",
+      "frame": 295,
+      "side_mm": 9.996733599409254,
+      "height_mm": 14.848199984258084,
+      "tilt_deg": 26.049636102766936,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 2,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_051.npz",
+      "frame": 346,
+      "side_mm": -1.2176278073043183,
+      "height_mm": 11.407537022051677,
+      "tilt_deg": 23.004839687594465,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_052.npz",
+      "frame": 364,
+      "side_mm": -8.570214029057201,
+      "height_mm": 9.857298905941086,
+      "tilt_deg": 13.122788949994847,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_053.npz",
+      "frame": 262,
+      "side_mm": -9.819465776096115,
+      "height_mm": 12.524752846014227,
+      "tilt_deg": 5.383411666545955,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_054.npz",
+      "frame": 423,
+      "side_mm": 12.100448008011256,
+      "height_mm": 8.278486348069924,
+      "tilt_deg": 14.736537751200306,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_055.npz",
+      "frame": 388,
+      "side_mm": 12.196076921724485,
+      "height_mm": 12.784646695705534,
+      "tilt_deg": 15.630019605446474,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_056.npz",
+      "frame": 423,
+      "side_mm": -4.6115659144592875,
+      "height_mm": 3.9617996062000937,
+      "tilt_deg": 4.439871490711361,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 7,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_057.npz",
+      "frame": 386,
+      "side_mm": -8.783395251166475,
+      "height_mm": 11.374081244307687,
+      "tilt_deg": 0.32256281173938756,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_058.npz",
+      "frame": 289,
+      "side_mm": 6.985143810871124,
+      "height_mm": 7.491236120700425,
+      "tilt_deg": 8.240723314682548,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_059.npz",
+      "frame": 404,
+      "side_mm": -0.4279788846240685,
+      "height_mm": 8.157800015151594,
+      "tilt_deg": 4.739137166286829,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_060.npz",
+      "frame": 364,
+      "side_mm": 5.878661736187218,
+      "height_mm": 12.45367442852342,
+      "tilt_deg": 4.687010045936966,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_061.npz",
+      "frame": 395,
+      "side_mm": -12.393927029223605,
+      "height_mm": 2.9983984997628994,
+      "tilt_deg": 9.885055146601252,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_062.npz",
+      "frame": 372,
+      "side_mm": -2.530945064550129,
+      "height_mm": 8.132844036441835,
+      "tilt_deg": 1.820665910386826,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 7,
+        "moving": 7
+      }
+    },
+    {
+      "file": "teleop_063.npz",
+      "frame": 432,
+      "side_mm": -6.342328707775754,
+      "height_mm": 11.951873730485161,
+      "tilt_deg": 0.35241605705442913,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_064.npz",
+      "frame": 362,
+      "side_mm": -15.539901951948936,
+      "height_mm": 6.631100227634747,
+      "tilt_deg": 10.381723854019793,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_065.npz",
+      "frame": 362,
+      "side_mm": -13.1260480314274,
+      "height_mm": 8.770583220910826,
+      "tilt_deg": 1.432896013031946,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 2,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_066.npz",
+      "frame": 388,
+      "side_mm": -5.345729295593695,
+      "height_mm": 9.657790201977114,
+      "tilt_deg": 19.644722211305133,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 3,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_067.npz",
+      "frame": 381,
+      "side_mm": -13.90176354049388,
+      "height_mm": 3.755263107039348,
+      "tilt_deg": 7.4926245880391935,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_068.npz",
+      "frame": 319,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_069.npz",
+      "frame": 426,
+      "side_mm": 13.728670949606194,
+      "height_mm": 9.107095859932256,
+      "tilt_deg": 9.388489792846926,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_070.npz",
+      "frame": 308,
+      "side_mm": 18.53491026583965,
+      "height_mm": 20.15254002820023,
+      "tilt_deg": 0.011881811985710674,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 1,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_072.npz",
+      "frame": 230,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_073.npz",
+      "frame": 439,
+      "side_mm": -10.872854881697016,
+      "height_mm": 12.053238956995608,
+      "tilt_deg": 20.842456243686815,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 3,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_074.npz",
+      "frame": 573,
+      "side_mm": -5.86908405531752,
+      "height_mm": 7.66229790922969,
+      "tilt_deg": 16.893653891784407,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_075.npz",
+      "frame": 331,
+      "side_mm": -2.9426111726579123,
+      "height_mm": 11.711699253469819,
+      "tilt_deg": 2.5807710642573767,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_076.npz",
+      "frame": 325,
+      "side_mm": 3.014939954480958,
+      "height_mm": 10.271604899953143,
+      "tilt_deg": 4.45262131214577,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 7,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_077.npz",
+      "frame": 425,
+      "side_mm": -10.417747573387281,
+      "height_mm": 11.838083789244477,
+      "tilt_deg": 24.713052692212006,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 2,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_078.npz",
+      "frame": 327,
+      "side_mm": -6.966531829045718,
+      "height_mm": 5.2162154351586505,
+      "tilt_deg": 12.091067428453426,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_079.npz",
+      "frame": 403,
+      "side_mm": -2.885115773072472,
+      "height_mm": 4.147061810628987,
+      "tilt_deg": 7.644755982435635,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_080.npz",
+      "frame": 373,
+      "side_mm": 3.522129310943244,
+      "height_mm": -0.7994629859251877,
+      "tilt_deg": 1.9534354729140602,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 7
+      }
+    },
+    {
+      "file": "teleop_081.npz",
+      "frame": 319,
+      "side_mm": -4.322484810010353,
+      "height_mm": 6.176872384517604,
+      "tilt_deg": 8.066550989072722,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 6
+      }
+    },
+    {
+      "file": "teleop_082.npz",
+      "frame": 277,
+      "side_mm": -9.843465512638366,
+      "height_mm": 12.387509523278041,
+      "tilt_deg": 24.88212230545471,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_083.npz",
+      "frame": 219,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_084.npz",
+      "frame": 316,
+      "side_mm": -7.807631301763097,
+      "height_mm": 7.270678170320004,
+      "tilt_deg": 16.8349828542369,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 11,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_085.npz",
+      "frame": 303,
+      "side_mm": -4.7233657200434696,
+      "height_mm": 11.170340509231327,
+      "tilt_deg": 0.8446300005469387,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 10,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_086.npz",
+      "frame": 242,
+      "side_mm": -0.2465451594345896,
+      "height_mm": 6.284725402015753,
+      "tilt_deg": 11.891477369627768,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_087.npz",
+      "frame": 260,
+      "side_mm": 5.752051021596119,
+      "height_mm": 10.679912862205093,
+      "tilt_deg": 4.196828069182722,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_088.npz",
+      "frame": 354,
+      "side_mm": 10.13664795847775,
+      "height_mm": 7.243585675256924,
+      "tilt_deg": 2.2630839774173097,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_089.npz",
+      "frame": 304,
+      "side_mm": -8.58264109469391,
+      "height_mm": 8.24561412695048,
+      "tilt_deg": 20.383683274191256,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_090.npz",
+      "frame": 264,
+      "side_mm": -11.763440002943527,
+      "height_mm": 5.885105056902423,
+      "tilt_deg": 13.954035459649804,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_091.npz",
+      "frame": 229,
+      "side_mm": -10.84567205081817,
+      "height_mm": 12.423134233131874,
+      "tilt_deg": 6.921056153358481,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_092.npz",
+      "frame": 299,
+      "side_mm": 6.405232978475009,
+      "height_mm": 9.770016937905163,
+      "tilt_deg": 17.595494367112764,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_093.npz",
+      "frame": 250,
+      "side_mm": 3.5274043491199607,
+      "height_mm": 11.742837777927495,
+      "tilt_deg": 1.566534512355484,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_094.npz",
+      "frame": 345,
+      "side_mm": 4.324980147734534,
+      "height_mm": 4.863814566113012,
+      "tilt_deg": 2.090652231172222,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 3,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_095.npz",
+      "frame": 236,
+      "side_mm": -7.572269728015271,
+      "height_mm": 6.900210351217069,
+      "tilt_deg": 8.206909000967746,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_096.npz",
+      "frame": 305,
+      "side_mm": -10.569231262167161,
+      "height_mm": 3.155800680144725,
+      "tilt_deg": 11.044345717803077,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_097.npz",
+      "frame": 266,
+      "side_mm": -0.8974809582232416,
+      "height_mm": 6.934097809995463,
+      "tilt_deg": 15.024238339168932,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_098.npz",
+      "frame": 258,
+      "side_mm": -11.288136075280311,
+      "height_mm": 5.006290836159592,
+      "tilt_deg": 8.497026778355862,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_099.npz",
+      "frame": 200,
+      "side_mm": null
+    },
+    {
+      "file": "teleop_100.npz",
+      "frame": 295,
+      "side_mm": 3.0706604614730084,
+      "height_mm": 9.30175181781422,
+      "tilt_deg": 15.300037030183493,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_101.npz",
+      "frame": 326,
+      "side_mm": -7.594802802786895,
+      "height_mm": 7.525885270587771,
+      "tilt_deg": 14.831402984912145,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_102.npz",
+      "frame": 384,
+      "side_mm": -4.177955070134951,
+      "height_mm": 7.593432567070398,
+      "tilt_deg": 8.20494338293734,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_103.npz",
+      "frame": 417,
+      "side_mm": 0.47277311176099535,
+      "height_mm": 4.874905467274308,
+      "tilt_deg": 12.073493759348132,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_104.npz",
+      "frame": 280,
+      "side_mm": 6.602758216287806,
+      "height_mm": 8.161100438578659,
+      "tilt_deg": 11.319519920493802,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_105.npz",
+      "frame": 408,
+      "side_mm": -3.8702680620959606,
+      "height_mm": 8.140030127665284,
+      "tilt_deg": 1.3537456688220268,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_106.npz",
+      "frame": 217,
+      "side_mm": 6.855355897638833,
+      "height_mm": 8.21947917983457,
+      "tilt_deg": 8.3139318590081,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_107.npz",
+      "frame": 318,
+      "side_mm": -5.193461737375366,
+      "height_mm": 6.6482566142245725,
+      "tilt_deg": 8.423400108247726,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_108.npz",
+      "frame": 208,
+      "side_mm": -10.17178626073872,
+      "height_mm": 11.469816881221766,
+      "tilt_deg": 13.14045820647378,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_109.npz",
+      "frame": 339,
+      "side_mm": 1.0463717352105726,
+      "height_mm": 16.536688295160577,
+      "tilt_deg": 16.24137945463955,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 2,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_110.npz",
+      "frame": 308,
+      "side_mm": -10.643007183421965,
+      "height_mm": 12.57565942713464,
+      "tilt_deg": 18.29755963416904,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_111.npz",
+      "frame": 241,
+      "side_mm": 1.2617427366336462,
+      "height_mm": 7.071034505733928,
+      "tilt_deg": 19.802312917630513,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_112.npz",
+      "frame": 264,
+      "side_mm": -14.302819155632257,
+      "height_mm": 5.914245233715171,
+      "tilt_deg": 11.8461030796352,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_113.npz",
+      "frame": 297,
+      "side_mm": 4.380352775436298,
+      "height_mm": 6.454883575748289,
+      "tilt_deg": 5.290310375697434,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 6
+      }
+    },
+    {
+      "file": "teleop_114.npz",
+      "frame": 357,
+      "side_mm": 1.7219236748385285,
+      "height_mm": 9.946325562021288,
+      "tilt_deg": 0.22791333014451745,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 6
+      }
+    },
+    {
+      "file": "teleop_115.npz",
+      "frame": 450,
+      "side_mm": -2.207258286405726,
+      "height_mm": 6.0359168526234255,
+      "tilt_deg": 6.022221054431433,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 7,
+        "moving": 6
+      }
+    },
+    {
+      "file": "teleop_116.npz",
+      "frame": 248,
+      "side_mm": 7.371952670712269,
+      "height_mm": 4.183262896577465,
+      "tilt_deg": 12.149086836966832,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 6
+      }
+    },
+    {
+      "file": "teleop_117.npz",
+      "frame": 295,
+      "side_mm": 11.363912829467093,
+      "height_mm": 10.538156125989673,
+      "tilt_deg": 11.878663540575625,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_118.npz",
+      "frame": 287,
+      "side_mm": -4.3995593714304535,
+      "height_mm": 14.725006875064159,
+      "tilt_deg": 7.348254569119047,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_119.npz",
+      "frame": 388,
+      "side_mm": -0.778251086140025,
+      "height_mm": 6.019671785561761,
+      "tilt_deg": 13.525993231080863,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 11,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_120.npz",
+      "frame": 298,
+      "side_mm": -1.3423649263022575,
+      "height_mm": 10.986393551098033,
+      "tilt_deg": 25.64445244411118,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_121.npz",
+      "frame": 353,
+      "side_mm": -0.6418121284232777,
+      "height_mm": 6.022420391341295,
+      "tilt_deg": 1.3922644472889811,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_122.npz",
+      "frame": 443,
+      "side_mm": -10.690539616966351,
+      "height_mm": 9.984357359303443,
+      "tilt_deg": 13.244365285154153,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_123.npz",
+      "frame": 388,
+      "side_mm": -5.724701760923732,
+      "height_mm": 14.912710841041397,
+      "tilt_deg": 5.9936273606112325,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_124.npz",
+      "frame": 361,
+      "side_mm": 8.56593153507029,
+      "height_mm": 12.823634929736109,
+      "tilt_deg": 6.512523462623004,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_125.npz",
+      "frame": 390,
+      "side_mm": -1.2322404673759602,
+      "height_mm": 7.012699845987373,
+      "tilt_deg": 10.16594549902237,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_126.npz",
+      "frame": 301,
+      "side_mm": -7.462036087432618,
+      "height_mm": 9.383362418841868,
+      "tilt_deg": 11.582675692108598,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_127.npz",
+      "frame": 282,
+      "side_mm": -2.8048756795078496,
+      "height_mm": 11.601417962576331,
+      "tilt_deg": 0.4667445711271484,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_128.npz",
+      "frame": 289,
+      "side_mm": -3.8469658386526886,
+      "height_mm": 6.809195959596677,
+      "tilt_deg": 8.80486397689964,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_129.npz",
+      "frame": 248,
+      "side_mm": 4.918911517435649,
+      "height_mm": 8.481354929941975,
+      "tilt_deg": 12.250947091553437,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_130.npz",
+      "frame": 350,
+      "side_mm": -0.7513126635175955,
+      "height_mm": 10.428540937162019,
+      "tilt_deg": 13.92068212606457,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 10,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_131.npz",
+      "frame": 278,
+      "side_mm": 12.687514007822253,
+      "height_mm": 8.166380958531143,
+      "tilt_deg": 17.37807680076248,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_132.npz",
+      "frame": 368,
+      "side_mm": 7.813368992379761,
+      "height_mm": 7.513322423861319,
+      "tilt_deg": 19.792689666450595,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 6,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_133.npz",
+      "frame": 270,
+      "side_mm": -7.131484046516935,
+      "height_mm": 11.672841994414116,
+      "tilt_deg": 10.85570720184313,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_134.npz",
+      "frame": 371,
+      "side_mm": -7.027553005386456,
+      "height_mm": 4.03653667120227,
+      "tilt_deg": 1.8153814495050133,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_135.npz",
+      "frame": 319,
+      "side_mm": 8.113737734357711,
+      "height_mm": 6.343968017185689,
+      "tilt_deg": 18.648663027655836,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_136.npz",
+      "frame": 311,
+      "side_mm": -6.0382474509760495,
+      "height_mm": -0.5084212253668721,
+      "tilt_deg": 1.7955905427094272,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 8,
+        "moving": 7
+      }
+    },
+    {
+      "file": "teleop_137.npz",
+      "frame": 240,
+      "side_mm": -4.919056088145307,
+      "height_mm": 10.078876219866752,
+      "tilt_deg": 8.729760243494848,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 3
+      }
+    },
+    {
+      "file": "teleop_138.npz",
+      "frame": 354,
+      "side_mm": 3.531189458255827,
+      "height_mm": 3.2605974866492664,
+      "tilt_deg": 16.914875651137343,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_139.npz",
+      "frame": 304,
+      "side_mm": -1.6570481496512324,
+      "height_mm": 7.323043723127086,
+      "tilt_deg": 2.9664656012229114,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_140.npz",
+      "frame": 275,
+      "side_mm": 1.5125886512967643,
+      "height_mm": 17.414218212529267,
+      "tilt_deg": 7.817926640158336,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_141.npz",
+      "frame": 349,
+      "side_mm": 7.621620585979002,
+      "height_mm": 9.05857699762255,
+      "tilt_deg": 9.170614485297746,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 7,
+        "moving": 1
+      }
+    },
+    {
+      "file": "teleop_142.npz",
+      "frame": 204,
+      "side_mm": 1.4809886988400336,
+      "height_mm": 8.930662894929617,
+      "tilt_deg": 24.767796694212226,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_143.npz",
+      "frame": 251,
+      "side_mm": 1.7695931402210812,
+      "height_mm": 11.183955861303275,
+      "tilt_deg": 17.180111636407982,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_144.npz",
+      "frame": 430,
+      "side_mm": -8.553710450187783,
+      "height_mm": 10.007130238924713,
+      "tilt_deg": 3.094703885412765,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 10,
+        "moving": 5
+      }
+    },
+    {
+      "file": "teleop_145.npz",
+      "frame": 245,
+      "side_mm": -2.9795378786398614,
+      "height_mm": 8.55302368551738,
+      "tilt_deg": 12.583300424908579,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 9,
+        "moving": 2
+      }
+    },
+    {
+      "file": "teleop_146.npz",
+      "frame": 356,
+      "side_mm": -1.9880170648940063,
+      "height_mm": 12.073003934600518,
+      "tilt_deg": 5.765306189125001,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 4,
+        "moving": 4
+      }
+    },
+    {
+      "file": "teleop_147.npz",
+      "frame": 281,
+      "side_mm": -8.331530293290095,
+      "height_mm": 7.053838436534522,
+      "tilt_deg": 0.20676354321485904,
+      "faces": "x",
+      "n_contacts": {
+        "fixed": 7,
+        "moving": 7
+      }
+    },
+    {
+      "file": "teleop_148.npz",
+      "frame": 318,
+      "side_mm": 1.250743112702493,
+      "height_mm": 6.382836046292877,
+      "tilt_deg": 5.969507344975322,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 5,
+        "moving": 5
+      }
+    }
+  ],
+  "failed_rollouts": [
+    {
+      "pose_id": 315,
+      "pose": [
+        0.2205723539184175,
+        0.13082071869523176,
+        0.609459220995603
+      ],
+      "try": 2,
+      "video": "fail_pose315_try2.mp4",
+      "lift_frame": 276,
+      "drop_step": 405,
+      "side_mm": 3.366774521285752,
+      "height_mm": 12.340918937939495,
+      "tilt_deg": 31.65768431000801,
+      "faces": "y",
+      "n_contacts": {
+        "fixed": 2,
+        "moving": 2
+      }
+    },
+    {
+      "pose_id": 508,
+      "pose": [
+        0.32505850739067854,
+        0.004957890192364412,
+        0.5054677617972827
+      ],
+      "try": 1,
+      "video": "fail_pose508_try1.mp4",
+      "lift_frame": 258,
+      "drop_step": 1288,
+      "side_mm": null
+    }
+  ]
+}
